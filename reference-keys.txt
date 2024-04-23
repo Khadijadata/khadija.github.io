@@ -2,3 +2,8 @@ tab:unnamed-chunk-2
 introductie
 curriculum-vitae-khadija-zbair
 vooruitblikken
+eigen-opdracht-vrije-ruimte
+introductie-1
+mijn-workflow
+doelstelling
+paper
