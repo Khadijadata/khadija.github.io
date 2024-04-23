@@ -1,4 +1,5 @@
 tab:unnamed-chunk-2
+fig:unnamed-chunk-3
 introductie
 curriculum-vitae-khadija-zbair
 vooruitblikken
