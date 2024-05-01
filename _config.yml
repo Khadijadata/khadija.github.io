@@ -1,1 +1,2 @@
-theme: jeykll-theme-merlot
+extra_css:
+  - css/custom.css
