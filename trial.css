@@ -1,0 +1,17 @@
+/* Stijl voor de zeeblauwe sidebar */
+.sidebar {
+    background-color: #0077cc; /* Zeeblauwe kleur */
+    color: #fff; /* Witte tekst voor contrast */
+    width: 250px; /* Breedte van de sidebar */
+    height: 100%; /* Volledige hoogte van het venster */
+    position: fixed; /* Vastgezet aan de pagina */
+    top: 0; /* Aan de bovenkant van het venster */
+    left: 0; /* Aan de linkerkant van het venster */
+    padding: 20px; /* Ruimte binnenin de sidebar */
+}
+
+/* Stijl voor de inhoud naast de sidebar */
+.content {
+    margin-left: 250px; /* Dezelfde breedte als de sidebar om ruimte te maken voor de content */
+    padding: 20px; /* Ruimte rondom de content */
+}
