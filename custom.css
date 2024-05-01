@@ -1,27 +1,24 @@
-/* Zeeblauwe zijbalk */
+/* Zeeblauwe kleur */
+body {
+    background-color: #007bff; /* Zeeblauwe achtergrondkleur */
+}
+
+/* Blauwe zijbalk */
 .sidebar {
-    background-color: #007bff; /* Zeeblauwe kleur */
+    background-color: #007bff; /* Zeeblauwe kleur voor de zijbalk */
 }
 
-/* Accentkleur voor kopteksten en links */
-h1, h2, h3, h4, h5, h6 {
-    color: #007bff; /* Zeeblauwe kleur voor kopteksten */
-}
-
+/* Blauwe accenten */
 a {
     color: #007bff; /* Zeeblauwe kleur voor links */
 }
 
-a:hover {
-    color: #0056b3; /* Donkerder zeeblauw bij hover-effect */
+.btn-primary {
+    background-color: #007bff; /* Zeeblauwe kleur voor knoppen */
+    border-color: #007bff; /* Randkleur voor knoppen */
 }
 
-/* Achtergrondkleur voor codeblokken */
-pre, code {
-    background-color: #f8f9fa; /* Lichtgrijze achtergrondkleur voor codeblokken */
-}
-
-/* Border kleur voor codeblokken */
-pre, code {
-    border-color: #007bff; /* Zeeblauwe border kleur voor codeblokken */
+.btn-primary:hover {
+    background-color: #0056b3; /* Donkerder blauw bij zweven over knoppen */
+    border-color: #0056b3; /* Donkerder randkleur bij zweven over knoppen */
 }
