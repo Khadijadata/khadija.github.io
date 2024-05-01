@@ -1,0 +1,27 @@
+/* Zeeblauwe zijbalk */
+.sidebar {
+    background-color: #007bff; /* Zeeblauwe kleur */
+}
+
+/* Accentkleur voor kopteksten en links */
+h1, h2, h3, h4, h5, h6 {
+    color: #007bff; /* Zeeblauwe kleur voor kopteksten */
+}
+
+a {
+    color: #007bff; /* Zeeblauwe kleur voor links */
+}
+
+a:hover {
+    color: #0056b3; /* Donkerder zeeblauw bij hover-effect */
+}
+
+/* Achtergrondkleur voor codeblokken */
+pre, code {
+    background-color: #f8f9fa; /* Lichtgrijze achtergrondkleur voor codeblokken */
+}
+
+/* Border kleur voor codeblokken */
+pre, code {
+    border-color: #007bff; /* Zeeblauwe border kleur voor codeblokken */
+}
