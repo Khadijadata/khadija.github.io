@@ -14,8 +14,8 @@ my-workflow
 aim-of-this-project
 paper
 clusterprofiler-package
-applying-the-guerrilla-analytics-framework-to-my-own-project
-c.-elegans-plate-experiment
+guerrilla-analytics
+c.elegans-plate-experiment
 reproducible-research-peer-review
 choosing-the-right-article
 reference-to-the-article
