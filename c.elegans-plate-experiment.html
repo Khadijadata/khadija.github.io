@@ -10,15 +10,15 @@
 
   <meta property="og:title" content="5 C.elegans plate experiment | Portfolio DataScience of Khadija Zbair" />
   <meta property="og:type" content="book" />
-  
-  
-  
+
+
+
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="5 C.elegans plate experiment | Portfolio DataScience of Khadija Zbair" />
-  
-  
-  
+
+
+
 
 <meta name="author" content="Khadija Zbair" />
 
@@ -27,8 +27,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
+
+
 <link rel="prev" href="guerrilla-analytics.html"/>
 <link rel="next" href="reproducible-research-peer-review.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -67,7 +67,7 @@
 
 
 <style type="text/css">
-  
+
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
 
@@ -142,13 +142,13 @@
 <p>We now inspect the data types of the columns RawData, compName, and compConcentration in the dataset.</p>
 <pre><code>## $RawData
 ## [1] &quot;numeric&quot;
-## 
+##
 ## $compName
 ## [1] &quot;character&quot;
-## 
+##
 ## $compConcentration
 ## [1] &quot;character&quot;
-## 
+##
 ## $expType
 ## [1] &quot;character&quot;</code></pre>
 <p><strong>Checking and correcting the datatypes</strong></p>
@@ -162,17 +162,17 @@
 <p>After examining the data, I found that the <code>RawData</code> column is numeric, <code>compName</code> is character, and <code>compConcentration</code> is mistakenly interpreted as character instead of numeric. Additionally, <code>compName</code> and <code>expType</code> should be factors, not character class:</p>
 <pre><code>## $compConcentration
 ## [1] &quot;numeric&quot;
-## 
+##
 ## $compName
 ## [1] &quot;factor&quot;
-## 
+##
 ## $expType
 ## [1] &quot;factor&quot;</code></pre>
 <pre><code>## $compName
-## [1] &quot;2,6-diisopropylnaphthalene&quot; &quot;decane&quot;                    
-## [3] &quot;Ethanol&quot;                    &quot;naphthalene&quot;               
-## [5] &quot;S-medium&quot;                  
-## 
+## [1] &quot;2,6-diisopropylnaphthalene&quot; &quot;decane&quot;
+## [3] &quot;Ethanol&quot;                    &quot;naphthalene&quot;
+## [5] &quot;S-medium&quot;
+##
 ## $expType
 ## [1] &quot;experiment&quot;      &quot;controlPositive&quot; &quot;controlNegative&quot; &quot;controlVehicleA&quot;</code></pre>
 <p>I will first set the following steps in pseudocoding:</p>
