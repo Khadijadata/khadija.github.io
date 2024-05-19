@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Reproducible Research | Portfolio DataScience of Khadija Zbair</title>
+  <meta name="description" content="6 Reproducible Research | Portfolio DataScience of Khadija Zbair" />
+  <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Reproducible Research | Portfolio DataScience of Khadija Zbair" />
+  <meta property="og:type" content="book" />
+
+
+
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Reproducible Research | Portfolio DataScience of Khadija Zbair" />
+
+
+
+
+<meta name="author" content="Khadija Zbair" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+<link rel="prev" href="c.elegans-plate-experiment.html"/>
+<link rel="next" href="making-an-r-package.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
+<script src="libs/core-js-2.5.3/shim.min.js"></script>
+<script src="libs/react-18.2.0/react.min.js"></script>
+<script src="libs/react-18.2.0/react-dom.min.js"></script>
+<script src="libs/reactwidget-1.0.0/react-tools.js"></script>
+<link href="libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/reactable-0.4.4/reactable.css" rel="stylesheet" />
+<script src="libs/reactable-binding-0.4.4/reactable.js"></script>
+<script src="libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+
+<style type="text/css">
+
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+  <li class="toc-logo"><h3 class=".paddingtitel">Portfolio of Khadija Zbair</h3></li>
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="1" data-path="curriculum-vitae.html"><a href="curriculum-vitae.html"><i class="fa fa-check"></i><b>1</b> Curriculum vitae</a></li>
+<li class="chapter" data-level="2" data-path="future-outlook.html"><a href="future-outlook.html"><i class="fa fa-check"></i><b>2</b> Future outlook</a></li>
+<li class="chapter" data-level="3" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html"><i class="fa fa-check"></i><b>3</b> Pathway Analysis using ClusterProfile-R package</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+<li class="chapter" data-level="3.2" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#my-workflow"><i class="fa fa-check"></i><b>3.2</b> My workflow</a></li>
+<li class="chapter" data-level="3.3" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#aim-of-this-project"><i class="fa fa-check"></i><b>3.3</b> Aim of this project</a></li>
+<li class="chapter" data-level="3.4" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#paper"><i class="fa fa-check"></i><b>3.4</b> Paper</a></li>
+<li class="chapter" data-level="3.5" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#clusterprofiler-package"><i class="fa fa-check"></i><b>3.5</b> Clusterprofiler package</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="guerrilla-analytics.html"><a href="guerrilla-analytics.html"><i class="fa fa-check"></i><b>4</b> Guerrilla Analytics</a></li>
+<li class="chapter" data-level="5" data-path="c.elegans-plate-experiment.html"><a href="c.elegans-plate-experiment.html"><i class="fa fa-check"></i><b>5</b> C.elegans plate experiment</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="c.elegans-plate-experiment.html"><a href="c.elegans-plate-experiment.html#importing-and-inspecting-the-data"><i class="fa fa-check"></i><b>5.1</b> Importing and inspecting the data</a></li>
+<li class="chapter" data-level="5.2" data-path="c.elegans-plate-experiment.html"><a href="c.elegans-plate-experiment.html#checking-and-correcting-the-datatypes"><i class="fa fa-check"></i><b>5.2</b> Checking and correcting the datatypes</a></li>
+<li class="chapter" data-level="5.3" data-path="c.elegans-plate-experiment.html"><a href="c.elegans-plate-experiment.html#scatterplot-with-log10-and-jitter"><i class="fa fa-check"></i><b>5.3</b> Scatterplot with log10 and jitter</a></li>
+<li class="chapter" data-level="5.4" data-path="c.elegans-plate-experiment.html"><a href="c.elegans-plate-experiment.html#statistical-analysis"><i class="fa fa-check"></i><b>5.4</b> Statistical analysis</a></li>
+<li class="chapter" data-level="5.5" data-path="c.elegans-plate-experiment.html"><a href="c.elegans-plate-experiment.html#normalizing-the-controlnegative-data-and-plotting"><i class="fa fa-check"></i><b>5.5</b> Normalizing the ‘controlNegative’ data and plotting</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="reproducible-research.html"><a href="reproducible-research.html"><i class="fa fa-check"></i><b>6</b> Reproducible Research</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="reproducible-research.html"><a href="reproducible-research.html#choosing-the-right-article"><i class="fa fa-check"></i><b>6.1</b> Choosing the right article</a></li>
+<li class="chapter" data-level="6.2" data-path="reproducible-research.html"><a href="reproducible-research.html#reference-to-the-article"><i class="fa fa-check"></i><b>6.2</b> Reference to the article</a></li>
+<li class="chapter" data-level="6.3" data-path="reproducible-research.html"><a href="reproducible-research.html#transparicy-criteria"><i class="fa fa-check"></i><b>6.3</b> Transparicy criteria</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="reproducible-research.html"><a href="reproducible-research.html#general-aim"><i class="fa fa-check"></i><b>6.3.1</b> General aim</a></li>
+<li class="chapter" data-level="6.3.2" data-path="reproducible-research.html"><a href="reproducible-research.html#methodology"><i class="fa fa-check"></i><b>6.3.2</b> Methodology</a></li>
+<li class="chapter" data-level="6.3.3" data-path="reproducible-research.html"><a href="reproducible-research.html#results"><i class="fa fa-check"></i><b>6.3.3</b> Results</a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="reproducible-research.html"><a href="reproducible-research.html#conlusion"><i class="fa fa-check"></i><b>6.4</b> Conlusion</a></li>
+<li class="chapter" data-level="6.5" data-path="reproducible-research.html"><a href="reproducible-research.html#reproducing-the-visuals-of-a-paper"><i class="fa fa-check"></i><b>6.5</b> Reproducing the visuals of a paper</a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="reproducible-research.html"><a href="reproducible-research.html#the-code"><i class="fa fa-check"></i><b>6.5.1</b> The code</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="making-an-r-package.html"><a href="making-an-r-package.html"><i class="fa fa-check"></i><b>7</b> Making an R-package</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="making-an-r-package.html"><a href="making-an-r-package.html#the-demo"><i class="fa fa-check"></i><b>7.1</b> The Demo</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Portfolio DataScience of Khadija Zbair</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="reproducible-research" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">6</span> Reproducible Research<a href="reproducible-research.html#reproducible-research" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Reproducible data is crucial for the credibility of scientific research. Sharing transparent data enables others to replicate and verify the results. This is achieved by adhering to criteria such as explicitly stating the research objective, making data and code available, and indicating ethical considerations and funding sources. Adhering to these criteria increases reliability and strengthens confidence in scientific findings. Further about these criteria down below.</p>
+<hr />
+<div id="choosing-the-right-article" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Choosing the right article<a href="reproducible-research.html#choosing-the-right-article" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>One of the skills I have acquired is assessing an article based on its reproducibility. To demonstrate my proficiency in evaluating reproducibility, I have chosen a primary article from Pubmed, “Antiparkinson Drug Benztropine Suppresses Tumor Growth, Circulating Tumor Cells, and Metastasis” by Chiharu Sogawa et al (2020), which you can find here: <a href="https://pubmed.ncbi.nlm.nih.gov/32102440/" class="uri">https://pubmed.ncbi.nlm.nih.gov/32102440/</a>.</p>
+<p>This article explores the repurposing of benztropine for anticancer therapy using a tumoroid-based screening system. The study finds that benztropine inhibits tumor formation, cancer cell survival, MMP9 promoter activity, and oncogenic signaling transducers, including STAT3, NF-κB, and β-catenin, as well as cancer stem cell properties (see figure 6.1).</p>
+<p>By evaluating this paper against the transparency criteria, we seek to assess its reproducibility and contribute to the ongoing discourse on scientific integrity and transparency.</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-8"></span>
+<img src="benztropine.png" alt="Tumor growth, migration, invasion, and stemness are crucial for aggressive cancers, driven by oncogenic signaling through STAT3, NF-κB, and β-catenin, activating MMP9. Benztropine targets SLC6A3, suppressing these factors and cancer properties." width="60%" />
+<p class="caption">
+Figure 6.1: Tumor growth, migration, invasion, and stemness are crucial for aggressive cancers, driven by oncogenic signaling through STAT3, NF-κB, and β-catenin, activating MMP9. Benztropine targets SLC6A3, suppressing these factors and cancer properties.
+</p>
+</div>
+</div>
+<div id="reference-to-the-article" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Reference to the article<a href="reproducible-research.html#reference-to-the-article" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><strong>Title</strong>: Antiparkinson Drug Benztropine Suppresses Tumor Growth, Circulating Tumor Cells, and Metastasis by Acting on SLC6A3/DAT and Reducing STAT3.</p>
+<p><strong>Authors</strong>: Chiharu Sogawa 1, Takanori Eguchi 1 2, Manh Tien Tran 1, Masayuki Ishige 3, Kilian Trin 1 4, Yuka Okusha 1 5, Eman Ahmed Taha 1 6, Yanyin Lu 1, Hotaka Kawai 7, Norio Sogawa 8, Masaharu Takigawa 2, Stuart K Calderwood 5, Kuniaki Okamoto 1, Ken-Ichi Kozaki 1.</p>
+</div>
+<div id="transparicy-criteria" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Transparicy criteria<a href="reproducible-research.html#transparicy-criteria" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To determine the reproducibility of this article, we evaluate it against the transparency criteria.
+I’ll start with some general information of the article, then will go further into details as I go through each criteria and rate the article.</p>
+<div id="general-aim" class="section level3 hasAnchor" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> General aim<a href="reproducible-research.html#general-aim" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The study aims to repurpose drugs for anticancer therapy using a 3D tumoroid-based screening system. Benztropine emerges as the most effective compound, showing potential in inhibiting tumor progression both in vitro and in vivo. The research also investigates benztropine’s mechanism of action in targeting cancer cells and suppressing key pro-tumorigenic signaling pathways.</p>
+</div>
+<div id="methodology" class="section level3 hasAnchor" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Methodology<a href="reproducible-research.html#methodology" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The methods involved culturing cancer cell lines, including LuM1/m9 and HCT116 cells, and conducting a tumoroid-based multiplex reporter assay to evaluate drug effects. Chemicals like benztropine mesylate were used. Various assays, including cell viability, wound healing, and migration/invasion assays, were performed to assess drug efficacy. Protein and gene expression analyses were conducted to understand the mechanisms of action. Tumor allograft and circulating tumor cell analysis in mice were also performed. Statistical analyses were conducted to determine significance.</p>
+</div>
+<div id="results" class="section level3 hasAnchor" number="6.3.3">
+<h3><span class="header-section-number">6.3.3</span> Results<a href="reproducible-research.html#results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The research findings demonstrate that Benz, a compound potentially targeting tumorigenicity, MMP-driven metastatic potential, and cancer cell survival, was identified through a tumoroid-based multiplex screening. Benz, along with Benztropine, showed significant inhibition of tumoroid growth, MMP9 promoter activity, and cancer cell survival, with Benz also inhibiting metastatic cancer cell migration and invasion by suppressing MMP9 expression. These effects were further confirmed in a mouse model, where Benz suppressed tumor growth, circulating tumor cell formation, and lung metastasis. Clinically, genetic analysis data suggest that changes in DAT/SLC6A3 gene expression may be associated with poorer prognosis in various forms of cancer, making it a potential target for therapies like Benz.</p>
+<p>Now that I have gone over the most important aspects of the article, the rating is as follows:</p>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;background-color: rgba(226, 238, 248, 181) !important;">
+Transparency_Criteria
+</th>
+<th style="text-align:left;background-color: rgba(226, 238, 248, 181) !important;">
+Definition
+</th>
+<th style="text-align:left;background-color: rgba(226, 238, 248, 181) !important;">
+Response_Type
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Study Purpose
+</td>
+<td style="text-align:left;">
+A concise statement in the introduction of the article, often in the last paragraph, that establishes the reason the research was conducted. Also called the study objective.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Data Availability Statement
+</td>
+<td style="text-align:left;">
+A statement, in an individual section offset from the main body of text, that explains how or if one can access a study’s data. The title of the section may vary, but it must explicitly mention data; it is therefore distinct from a supplementary materials section.
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Data Location
+</td>
+<td style="text-align:left;">
+Where the article’s data can be accessed, either raw or processed.
+</td>
+<td style="text-align:left;">
+<a href="file:///C:/Users/kzzba/Downloads/cancers-12-00523-s001%20(1).pdf">link to processed data</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Study Location
+</td>
+<td style="text-align:left;">
+Author has stated in the methods section where the study took place or the data’s country/region of origin.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Author Review
+</td>
+<td style="text-align:left;">
+The professionalism of the contact information that the author has provided in the manuscript.
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Ethics Statement
+</td>
+<td style="text-align:left;">
+A statement within the manuscript indicating any ethical concerns, including the presence of sensitive data.
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Funding Statement
+</td>
+<td style="text-align:left;">
+A statement within the manuscript indicating whether or not the authors received funding for their research.
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Code Availability
+</td>
+<td style="text-align:left;">
+Authors have shared access to the most updated code that they used in their study, including code used for analysis.
+</td>
+<td style="text-align:left;">
+No
+</td>
+</tr>
+</tbody>
+</table>
+<p>That gives the article a score of 4/8.</p>
+</div>
+</div>
+<div id="conlusion" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Conlusion<a href="reproducible-research.html#conlusion" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>From this score of 4/8, we can deduce that the article has adhered to some transparency criteria, but there is also room for improvement in other areas. The findings are as follows:</p>
+<p><strong>Positive points:</strong></p>
+<p>The article clearly stated the purpose of the study (Study Purpose).
+The location of the study is mentioned in the methods section (Study Location).
+It is indicated that the authors received funding for their research (Funding Statement).</p>
+<p><strong>Areas for improvement:</strong></p>
+<p>No data availability statement was provided (Data Availability Statement).
+The professional review of the author’s contact information is missing (Author Review).
+There is no ethical statement included in the article (Ethics Statement).
+The availability of the code used in the research has not been shared (Code Availability).</p>
+<hr />
+</div>
+<div id="reproducing-the-visuals-of-a-paper" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Reproducing the visuals of a paper<a href="reproducible-research.html#reproducing-the-visuals-of-a-paper" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In Data Science, it’s important to know how to know your way around Open Articles. These types of articles show their code and how they got to their data.</p>
+<p>Here, I will try to reproduce the data visuals in a chosen paper. I have chosen the paper <a href="https://osf.io/w3rzd/">“Infection fatality rate of COVID-19 in community-dwelling elderly populations”</a> by Cathrine Axfors John P.A. Ioannidis (2022).</p>
+<p>This article investigates the infection fatality ratio (IFR) of Coronavirus Disease 2019 (COVID-19) in community-dwelling elderly populations and other age groups based on seroprevalence studies. The aim of the research was to estimate the IFR and examine the influence of age and other factors on the risk of mortality from COVID-19. The study included seroprevalence studies from 2020 focusing on participants aged 70 and older and was conducted in various countries, primarily in high-income countries. Findings suggest that the IFR of COVID-19 in community-dwelling elderly populations is lower than previously reported.</p>
+<div id="the-code" class="section level3 hasAnchor" number="6.5.1">
+<h3><span class="header-section-number">6.5.1</span> The code<a href="reproducible-research.html#the-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>I decided to recreate figure 1A and 1B (see figure 6.2 and 6.3). The code used to make figure 1 is fairly readable. Commentary in the code explains variables and the logic behind calculations, enhancing readability and comprehension. The comments are clear and really help with identifying which codes are relevant for making figure 1. I collected all the relevant codes for making figure 1A and 1B, the output is the figure saved in a pdf format (can be found in my repository under “Raw-data/reproducibility” as well as the Rmd file of the script).</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-10-1"></span>
+<img src="figure1A.png" alt="a) Calculates infection fatality rates (IFRs) in elderly, considering unmeasured antibody types. b) Estimates IFRs in community-dwelling elderly with 95% confidence intervals, adjusting for test performance and population distribution." width="70%" />
+<p class="caption">
+Figure 6.2: a) Calculates infection fatality rates (IFRs) in elderly, considering unmeasured antibody types. b) Estimates IFRs in community-dwelling elderly with 95% confidence intervals, adjusting for test performance and population distribution.
+</p>
+</div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-10-2"></span>
+<img src="figure1B.png" alt="a) Calculates infection fatality rates (IFRs) in elderly, considering unmeasured antibody types. b) Estimates IFRs in community-dwelling elderly with 95% confidence intervals, adjusting for test performance and population distribution." width="70%" />
+<p class="caption">
+Figure 6.3: a) Calculates infection fatality rates (IFRs) in elderly, considering unmeasured antibody types. b) Estimates IFRs in community-dwelling elderly with 95% confidence intervals, adjusting for test performance and population distribution.
+</p>
+</div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="c.elegans-plate-experiment.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="making-an-r-package.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
