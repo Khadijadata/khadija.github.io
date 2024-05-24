@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1 Future outlook | Portfolio DataScience of Khadija Zbair</title>
-  <meta name="description" content="1 Future outlook | Portfolio DataScience of Khadija Zbair" />
+  <title>8 Parameterized COVID-19 report | Portfolio DataScience of Khadija Zbair</title>
+  <meta name="description" content="8 Parameterized COVID-19 report | Portfolio DataScience of Khadija Zbair" />
   <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1 Future outlook | Portfolio DataScience of Khadija Zbair" />
+  <meta property="og:title" content="8 Parameterized COVID-19 report | Portfolio DataScience of Khadija Zbair" />
   <meta property="og:type" content="book" />
 
 
 
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1 Future outlook | Portfolio DataScience of Khadija Zbair" />
+  <meta name="twitter:title" content="8 Parameterized COVID-19 report | Portfolio DataScience of Khadija Zbair" />
 
 
 
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
 
-<link rel="prev" href="curriculum-vitae.html"/>
-<link rel="next" href="pathway-analysis-using-clusterprofile-r-package.html"/>
+<link rel="prev" href="antimicrobial-resistance-projecticum.html"/>
+<link rel="next" href="references-1.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -180,20 +180,87 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="future-outlook" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">1</span> Future outlook<a href="future-outlook.html#future-outlook" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>In two years from now, I envision myself furthering my knowledge and skills in biomedical research by pursuing a degree in Biomedical Sciences, with a specific focus on molecular genetics. My interest lies primarily in understanding the genetic basis of human diseases, such as cancer. I aspire to specialize in cancer research, delving into the molecular mechanisms underlying cancer and seeking new insights that may lead to more effective treatment strategies.</p>
-<p>In the future, I aim to leverage my acquired knowledge and experience to contribute to scientific research within a research institution or company, with the goal of improving the health and quality of life of individuals. I envision myself working within a research group where I am involved in both laboratory work and data analysis.</p>
-<p>As the next step in my development, I am keen to delve into pathway analysis. This decision is driven by my interest in cancer research and my desire to further specialize in bioinformatics. By learning pathway analysis, I hope to gain a better understanding of the complex interactions between genes, proteins, and metabolites in biological processes. With this skill, I aim to study the molecular mechanisms underlying cancer development and progression, thereby obtaining new insights that may contribute to the development of more effective diagnostic and therapeutic strategies for cancer.</p>
+<div id="parameterized-covid-19-report" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">8</span> Parameterized COVID-19 report<a href="parameterized-covid-19-report.html#parameterized-covid-19-report" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this chapter I will focus on parameters, the next step and an important part when it comes to a reproducible analysis. The benefit of using parameters is it’ll help simplify re-using or applying the analysis to different datasets or various categories within the same dataset. I will use <a href="https://www.ecdc.europa.eu/en/publications-data/data-daily-new-cases-covid-19-eueea-country">COVID-19 data (2022)</a> and use COVID19 cases and COVID19-related deaths. The aim is is to create a parameterized report for the COVID-19 cases and deaths and visualize them in plots.</p>
+<p>Firstly, the analysis will be executed with three parameters: The country to which the report applies to, the year that the reported data applies to and the period in months that the report applies to.</p>
+<div id="inspecting-the-data" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Inspecting the data<a href="parameterized-covid-19-report.html#inspecting-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The first step in the parameters (and in any data analysis, really) is to inspect the data.</p>
+<pre><code>## &#39;data.frame&#39;:    28729 obs. of  11 variables:
+##  $ dateRep                : chr  &quot;23/10/2022&quot; &quot;22/10/2022&quot; &quot;21/10/2022&quot; &quot;20/10/2022&quot; ...
+##  $ day                    : int  23 22 21 20 19 18 17 16 15 14 ...
+##  $ month                  : int  10 10 10 10 10 10 10 10 10 10 ...
+##  $ year                   : int  2022 2022 2022 2022 2022 2022 2022 2022 2022 2022 ...
+##  $ cases                  : int  3557 5494 7776 8221 10007 13204 9964 6606 8818 11751 ...
+##  $ deaths                 : int  0 4 4 6 8 7 8 12 6 10 ...
+##  $ countriesAndTerritories: chr  &quot;Austria&quot; &quot;Austria&quot; &quot;Austria&quot; &quot;Austria&quot; ...
+##  $ geoId                  : chr  &quot;AT&quot; &quot;AT&quot; &quot;AT&quot; &quot;AT&quot; ...
+##  $ countryterritoryCode   : chr  &quot;AUT&quot; &quot;AUT&quot; &quot;AUT&quot; &quot;AUT&quot; ...
+##  $ popData2020            : int  8901064 8901064 8901064 8901064 8901064 8901064 8901064 8901064 8901064 8901064 ...
+##  $ continentExp           : chr  &quot;Europe&quot; &quot;Europe&quot; &quot;Europe&quot; &quot;Europe&quot; ...</code></pre>
+<pre><code>## $dateRep
+## [1] &quot;character&quot;
+##
+## $day
+## [1] &quot;integer&quot;
+##
+## $month
+## [1] &quot;integer&quot;
+##
+## $year
+## [1] &quot;integer&quot;
+##
+## $cases
+## [1] &quot;integer&quot;
+##
+## $deaths
+## [1] &quot;integer&quot;
+##
+## $countriesAndTerritories
+## [1] &quot;character&quot;
+##
+## $geoId
+## [1] &quot;character&quot;
+##
+## $countryterritoryCode
+## [1] &quot;character&quot;
+##
+## $popData2020
+## [1] &quot;integer&quot;
+##
+## $continentExp
+## [1] &quot;character&quot;</code></pre>
+</div>
+<div id="visualising-the-data" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Visualising the data<a href="parameterized-covid-19-report.html#visualising-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-14"></span>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-3bcde6d9dd57b5f1ebb6" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-3bcde6d9dd57b5f1ebb6">{"x":{"data":[{"x":[18356,18360,18364,18368,18372,18376,18380,18383,18387,18391,18395,18399,18403,18407,18411,18414,18418,18422,18426,18430,18434,18438,18442,18445,18449,18453,18457,18461,18465,18469,18473],"y":[1002,959,1171,1069,748,805,193,478,319,288,223,125,254,213,178,104,217,164,181,113,95,110,76,75,41,65,98,145,170,213,341],"text":["dateRep: 2020-04-04<br />cases: 1002<br />colour: Cases","dateRep: 2020-04-08<br />cases:  959<br />colour: Cases","dateRep: 2020-04-12<br />cases: 1171<br />colour: Cases","dateRep: 2020-04-16<br />cases: 1069<br />colour: Cases","dateRep: 2020-04-20<br />cases:  748<br />colour: Cases","dateRep: 2020-04-24<br />cases:  805<br />colour: Cases","dateRep: 2020-04-28<br />cases:  193<br />colour: Cases","dateRep: 2020-05-01<br />cases:  478<br />colour: Cases","dateRep: 2020-05-05<br />cases:  319<br />colour: Cases","dateRep: 2020-05-09<br />cases:  288<br />colour: Cases","dateRep: 2020-05-13<br />cases:  223<br />colour: Cases","dateRep: 2020-05-17<br />cases:  125<br />colour: Cases","dateRep: 2020-05-21<br />cases:  254<br />colour: Cases","dateRep: 2020-05-25<br />cases:  213<br />colour: Cases","dateRep: 2020-05-29<br />cases:  178<br />colour: Cases","dateRep: 2020-06-01<br />cases:  104<br />colour: Cases","dateRep: 2020-06-05<br />cases:  217<br />colour: Cases","dateRep: 2020-06-09<br />cases:  164<br />colour: Cases","dateRep: 2020-06-13<br />cases:  181<br />colour: Cases","dateRep: 2020-06-17<br />cases:  113<br />colour: Cases","dateRep: 2020-06-21<br />cases:   95<br />colour: Cases","dateRep: 2020-06-25<br />cases:  110<br />colour: Cases","dateRep: 2020-06-29<br />cases:   76<br />colour: Cases","dateRep: 2020-07-02<br />cases:   75<br />colour: Cases","dateRep: 2020-07-06<br />cases:   41<br />colour: Cases","dateRep: 2020-07-10<br />cases:   65<br />colour: Cases","dateRep: 2020-07-14<br />cases:   98<br />colour: Cases","dateRep: 2020-07-18<br />cases:  145<br />colour: Cases","dateRep: 2020-07-22<br />cases:  170<br />colour: Cases","dateRep: 2020-07-26<br />cases:  213<br />colour: Cases","dateRep: 2020-07-30<br />cases:  341<br />colour: Cases"],"type":"scatter","mode":"lines","line":{"width":3.7795275590551185,"color":"rgba(144,238,144,1)","dash":"solid"},"hoveron":"points","name":"Cases","legendgroup":"Cases","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[18356,18360,18364,18368,18372,18376,18380,18383,18387,18391,18395,18399,18403,18407,18411,18414,18418,18422,18426,18430,18434,18438,18442,18445,18449,18453,18457,18461,18465,18469,18473],"y":[177,148,94,185,65,111,58,100,82,64,49,11,28,8,25,6,13,16,4,4,1,3,2,3,1,1,11,1,3,0,0],"text":["dateRep: 2020-04-04<br />deaths: 177<br />colour: Deaths","dateRep: 2020-04-08<br />deaths: 148<br />colour: Deaths","dateRep: 2020-04-12<br />deaths:  94<br />colour: Deaths","dateRep: 2020-04-16<br />deaths: 185<br />colour: Deaths","dateRep: 2020-04-20<br />deaths:  65<br />colour: Deaths","dateRep: 2020-04-24<br />deaths: 111<br />colour: Deaths","dateRep: 2020-04-28<br />deaths:  58<br />colour: Deaths","dateRep: 2020-05-01<br />deaths: 100<br />colour: Deaths","dateRep: 2020-05-05<br />deaths:  82<br />colour: Deaths","dateRep: 2020-05-09<br />deaths:  64<br />colour: Deaths","dateRep: 2020-05-13<br />deaths:  49<br />colour: Deaths","dateRep: 2020-05-17<br />deaths:  11<br />colour: Deaths","dateRep: 2020-05-21<br />deaths:  28<br />colour: Deaths","dateRep: 2020-05-25<br />deaths:   8<br />colour: Deaths","dateRep: 2020-05-29<br />deaths:  25<br />colour: Deaths","dateRep: 2020-06-01<br />deaths:   6<br />colour: Deaths","dateRep: 2020-06-05<br />deaths:  13<br />colour: Deaths","dateRep: 2020-06-09<br />deaths:  16<br />colour: Deaths","dateRep: 2020-06-13<br />deaths:   4<br />colour: Deaths","dateRep: 2020-06-17<br />deaths:   4<br />colour: Deaths","dateRep: 2020-06-21<br />deaths:   1<br />colour: Deaths","dateRep: 2020-06-25<br />deaths:   3<br />colour: Deaths","dateRep: 2020-06-29<br />deaths:   2<br />colour: Deaths","dateRep: 2020-07-02<br />deaths:   3<br />colour: Deaths","dateRep: 2020-07-06<br />deaths:   1<br />colour: Deaths","dateRep: 2020-07-10<br />deaths:   1<br />colour: Deaths","dateRep: 2020-07-14<br />deaths:  11<br />colour: Deaths","dateRep: 2020-07-18<br />deaths:   1<br />colour: Deaths","dateRep: 2020-07-22<br />deaths:   3<br />colour: Deaths","dateRep: 2020-07-26<br />deaths:   0<br />colour: Deaths","dateRep: 2020-07-30<br />deaths:   0<br />colour: Deaths"],"type":"scatter","mode":"lines","line":{"width":3.7795275590551185,"color":"rgba(173,216,230,1)","dash":"solid"},"hoveron":"points","name":"Deaths","legendgroup":"Deaths","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":43.762557077625573,"r":7.3059360730593621,"b":40.182648401826491,"l":48.949771689497723},"font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"title":{"text":"COVID-19 Cases and Deaths from April to July 2020 in the Netherlands","font":{"color":"rgba(0,0,0,1)","family":"","size":17.534246575342465},"x":0.5,"xref":"paper"},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[18350.150000000001,18478.849999999999],"tickmode":"array","ticktext":["apr","mei","jun","jul","aug"],"tickvals":[18353,18383,18414,18444,18475],"categoryorder":"array","categoryarray":["apr","mei","jun","jul","aug"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Date (months)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-58.550000000000004,1229.55],"tickmode":"array","ticktext":["0","300","600","900","1200"],"tickvals":[0,300.00000000000006,600,900.00000000000011,1200],"categoryorder":"array","categoryarray":["0","300","600","900","1200"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.6529680365296811,"tickwidth":0,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(235,235,235,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Count","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":null,"bordercolor":null,"borderwidth":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Legend","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"8e941e565cc0":{"x":{},"y":{},"colour":{},"type":"scatter"},"8e9473ac19dc":{"x":{},"y":{},"colour":{}}},"cur_data":"8e941e565cc0","visdat":{"8e941e565cc0":["function (y) ","x"],"8e9473ac19dc":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Figure 8.1: The COVID-19 cases and deaths from April until July in Netherlands in the year 2020.
+</p>
+</div>
+</div>
+<div id="parameters" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Parameters<a href="parameterized-covid-19-report.html#parameters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The plot in figure 8.2 was made by using parameters. We can now change these parameters to display different data. For example, let’s say we’re interested in the COVID-19 related deaths and cases in another country in a certain period of time. Let’s do Sweden from May ’til August.</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-15"></span>
+<img src="Images/sweden.png" alt="COVID-19 related cases and deaths in Sweden from May 'til August in 2020 after changing the parameters." width="70%" />
+<p class="caption">
+Figure 8.2: COVID-19 related cases and deaths in Sweden from May ’til August in 2020 after changing the parameters.
+</p>
+</div>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="curriculum-vitae.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="pathway-analysis-using-clusterprofile-r-package.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="antimicrobial-resistance-projecticum.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

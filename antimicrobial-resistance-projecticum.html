@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1 Future outlook | Portfolio DataScience of Khadija Zbair</title>
-  <meta name="description" content="1 Future outlook | Portfolio DataScience of Khadija Zbair" />
+  <title>7 Antimicrobial resistance projecticum | Portfolio DataScience of Khadija Zbair</title>
+  <meta name="description" content="7 Antimicrobial resistance projecticum | Portfolio DataScience of Khadija Zbair" />
   <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1 Future outlook | Portfolio DataScience of Khadija Zbair" />
+  <meta property="og:title" content="7 Antimicrobial resistance projecticum | Portfolio DataScience of Khadija Zbair" />
   <meta property="og:type" content="book" />
 
 
 
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1 Future outlook | Portfolio DataScience of Khadija Zbair" />
+  <meta name="twitter:title" content="7 Antimicrobial resistance projecticum | Portfolio DataScience of Khadija Zbair" />
 
 
 
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
 
-<link rel="prev" href="curriculum-vitae.html"/>
-<link rel="next" href="pathway-analysis-using-clusterprofile-r-package.html"/>
+<link rel="prev" href="r-package.html"/>
+<link rel="next" href="parameterized-covid-19-report.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -180,20 +180,79 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="future-outlook" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">1</span> Future outlook<a href="future-outlook.html#future-outlook" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>In two years from now, I envision myself furthering my knowledge and skills in biomedical research by pursuing a degree in Biomedical Sciences, with a specific focus on molecular genetics. My interest lies primarily in understanding the genetic basis of human diseases, such as cancer. I aspire to specialize in cancer research, delving into the molecular mechanisms underlying cancer and seeking new insights that may lead to more effective treatment strategies.</p>
-<p>In the future, I aim to leverage my acquired knowledge and experience to contribute to scientific research within a research institution or company, with the goal of improving the health and quality of life of individuals. I envision myself working within a research group where I am involved in both laboratory work and data analysis.</p>
-<p>As the next step in my development, I am keen to delve into pathway analysis. This decision is driven by my interest in cancer research and my desire to further specialize in bioinformatics. By learning pathway analysis, I hope to gain a better understanding of the complex interactions between genes, proteins, and metabolites in biological processes. With this skill, I aim to study the molecular mechanisms underlying cancer development and progression, thereby obtaining new insights that may contribute to the development of more effective diagnostic and therapeutic strategies for cancer.</p>
+<div id="antimicrobial-resistance-projecticum" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">7</span> Antimicrobial resistance projecticum<a href="antimicrobial-resistance-projecticum.html#antimicrobial-resistance-projecticum" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introduction-2" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Introduction<a href="antimicrobial-resistance-projecticum.html#introduction-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The antimicrobial project is done on behalf of RIVM (Rijksinstituut voor Volksgezondheid en Milieu) for the client Gijs Teunis. During the antimicrobial project, our research group worked on further developing and refining the R shiny app for typing and visualizing bacterial plasmids by adding additional epidemiological data, such as information on isolation date, geographical location, the ability to add and compare own fasta/plasmids with the database, and optimizing for easy uploading. We will also integrate patient metadata and visualise them by making an (interactive) map for instance. Additionally, we want to add user-friendly features that allow users to add isolates and compare them with our dataset. There are many options as to visualisation of patient data <span class="citation">[<a href="antimicrobial-resistance-projecticum.html#ref-Appsilon R Shiny Demo Gallery">1</a>]</span>, for instance a sankey diagram to display the type of antiobitica used for a certain infection.</p>
+</div>
+<div id="about-antimicrobial-resistance" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> About antimicrobial resistance<a href="antimicrobial-resistance-projecticum.html#about-antimicrobial-resistance" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Antimicrobial resistance (AMR) poses a significant threat to global health as bacteria continually adapt to survive antibiotic treatments. These adaptations involve various mechanisms, including the production of enzymes to neutralize antibiotics, the use of efflux pumps to remove them from cells, and the modification of antibiotic targets. Additionally, bacteria can acquire resistance genes from both natural reservoirs and human activities like extensive antibiotic use in medicine, agriculture, and industry. These genes can spread through horizontal gene transfer, transitioning from environmental bacteria to pathogenic strains, exacerbating clinical resistance issues. Given the gravity of AMR’s impact on public health, understanding its mechanisms and origins is paramount for devising effective strategies to curb antibiotic misuse and limit the spread of resistant genes <span class="citation">[<a href="antimicrobial-resistance-projecticum.html#ref-Origins and evolution of antibiotic resistance">2</a>]</span>.</p>
+<p>Furthermore, antibiotic resistance occurs when bacteria change to resist the effects of antibiotics. This can happen through mutations in bacteria’s own genes or by acquiring new genes from other bacteria. In environments like water and soil, bacteria have a diverse range of genes that can help them survive antibiotics. Over time, these resistant genes can spread between bacteria, making infections harder to treat. Scientists study how resistance develops to find better ways to combat it and develop new treatments <span class="citation">[<a href="antimicrobial-resistance-projecticum.html#ref-Antibiotic resistance in the environment">3</a>]</span>.</p>
+<div id="r-shiny-app" class="section level3 hasAnchor" number="7.2.1">
+<h3><span class="header-section-number">7.2.1</span> R shiny app<a href="antimicrobial-resistance-projecticum.html#r-shiny-app" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Shiny is a tool in R that changes R code into interactive web apps, combining R’s analysis skills with web development. With Shiny, developers can make lively tools that work on web browsers.With Shiny, developers can make user interfaces and write code in R language. Then, Shiny makes this code into HTML, CSS, and JavaScript for smooth web viewing. Shiny apps use R code on the server, helping with lots of data jobs, from simple math to hard stats and machine learning. Shiny gets user info, does stuff with it in R, and shows results right away. This makes Shiny great for exploring data interactively <span class="citation">[<a href="antimicrobial-resistance-projecticum.html#ref-What is Shiny (in R)?">4</a>]</span>. The previous research group working on this project, made an R shiny app (see figure 8.1) with gene information, mostly. It is our task to add and visualize patient data, such as patient zipcode, sample data, age, gender etc. Forrtunately, there are many options to visualize clinical data <span class="citation">[<a href="antimicrobial-resistance-projecticum.html#ref-Visualization of clinical data">5</a>]</span>.</p>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-12"></span>
+<img src="Images/shinyapp.png" alt="The R shiny app." width="70%" />
+<p class="caption">
+Figure 7.1: The R shiny app.
+</p>
+</div>
+</div>
+</div>
+<div id="references" class="section level2 unnumbered hasAnchor">
+<h2>References<a href="antimicrobial-resistance-projecticum.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="ref-Appsilon R Shiny Demo Gallery" class="csl-entry">
+<div class="csl-left-margin">
+<ol style="list-style-type: decimal">
+<li><div class="csl-right-inline">
+Appsilon. (2021). Appsilon R Shiny Demo Gallery. <a href="https://www.appsilon.com/shiny-demo-gallery" class="uri">https://www.appsilon.com/shiny-demo-gallery</a>
+</div></li>
+</ol>
+</div>
+<div id="ref-Origins and evolution of antibiotic resistance" class="csl-entry">
+<div class="csl-left-margin">
+<ol start="2" style="list-style-type: decimal">
+<li><div class="csl-right-inline">
+Davies J, Davies D. Origins and evolution of antibiotic resistance. Microbiol Mol Biol Rev. 2010 Sep;74(3):417-33. doi: 10.1128/MMBR.00016-10. PMID: 20805405; PMCID: PMC2937522. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2937522/" class="uri">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2937522/</a>
+</div></li>
+</ol>
+</div>
+<div id="ref-Antibiotic resistance in the environment" class="csl-entry">
+<div class="csl-left-margin">
+<ol start="3" style="list-style-type: decimal">
+<li><div class="csl-right-inline">
+Larsson DGJ, Flach CF. Antibiotic resistance in the environment. Nat Rev Microbiol. 2022 May;20(5):257-269. doi: 10.1038/s41579-021-00649-x. Epub 2021 Nov 4. PMID: 34737424; PMCID: PMC8567979. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8567979/" class="uri">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8567979/</a>
+</div></li>
+</ol>
+</div>
+<div id="ref-What is Shiny (in R)?" class="csl-entry">
+<div class="csl-left-margin">
+<ol start="4" style="list-style-type: decimal">
+<li><div class="csl-right-inline">
+Domino Data Lab.(2024). Platform.https://www.dominodatalab.com/platform.
+</div></li>
+</ol>
+</div>
+<div id="ref-Visualization of clinical data" class="csl-entry">
+<div class="csl-left-margin">
+<ol start="5" style="list-style-type: decimal">
+<li><div class="csl-right-inline">
+Laure Cougnaud, Michela Pasetto.(2024).Visualization of clinical data. <a href="https://cran.r-project.org/web/packages/clinDataReview/vignettes/clinDataReview-dataVisualization.html#visualization-of-summary-statistics" class="uri">https://cran.r-project.org/web/packages/clinDataReview/vignettes/clinDataReview-dataVisualization.html#visualization-of-summary-statistics</a>
+</div></li>
+</ol>
+</div>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="curriculum-vitae.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="pathway-analysis-using-clusterprofile-r-package.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="r-package.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="parameterized-covid-19-report.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>1 Future outlook | Portfolio DataScience of Khadija Zbair</title>
-  <meta name="description" content="1 Future outlook | Portfolio DataScience of Khadija Zbair" />
+  <title>6 R-package | Portfolio DataScience of Khadija Zbair</title>
+  <meta name="description" content="6 R-package | Portfolio DataScience of Khadija Zbair" />
   <meta name="generator" content="bookdown 0.39 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="1 Future outlook | Portfolio DataScience of Khadija Zbair" />
+  <meta property="og:title" content="6 R-package | Portfolio DataScience of Khadija Zbair" />
   <meta property="og:type" content="book" />
 
 
 
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="1 Future outlook | Portfolio DataScience of Khadija Zbair" />
+  <meta name="twitter:title" content="6 R-package | Portfolio DataScience of Khadija Zbair" />
 
 
 
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
 
-<link rel="prev" href="curriculum-vitae.html"/>
-<link rel="next" href="pathway-analysis-using-clusterprofile-r-package.html"/>
+<link rel="prev" href="reproducible-research-peer-review.html"/>
+<link rel="next" href="antimicrobial-resistance-projecticum.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -180,20 +180,65 @@
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="future-outlook" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">1</span> Future outlook<a href="future-outlook.html#future-outlook" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>In two years from now, I envision myself furthering my knowledge and skills in biomedical research by pursuing a degree in Biomedical Sciences, with a specific focus on molecular genetics. My interest lies primarily in understanding the genetic basis of human diseases, such as cancer. I aspire to specialize in cancer research, delving into the molecular mechanisms underlying cancer and seeking new insights that may lead to more effective treatment strategies.</p>
-<p>In the future, I aim to leverage my acquired knowledge and experience to contribute to scientific research within a research institution or company, with the goal of improving the health and quality of life of individuals. I envision myself working within a research group where I am involved in both laboratory work and data analysis.</p>
-<p>As the next step in my development, I am keen to delve into pathway analysis. This decision is driven by my interest in cancer research and my desire to further specialize in bioinformatics. By learning pathway analysis, I hope to gain a better understanding of the complex interactions between genes, proteins, and metabolites in biological processes. With this skill, I aim to study the molecular mechanisms underlying cancer development and progression, thereby obtaining new insights that may contribute to the development of more effective diagnostic and therapeutic strategies for cancer.</p>
+<div id="r-package" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">6</span> R-package<a href="r-package.html#r-package" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Creating an R package organizes your code, data, and documentation into a cohesive structure, greatly enhancing reproducibility, sharing, and collaboration.
+This professional approach ensures that your work is easy to maintain and extend, making it valuable for future projects and the broader data science community.
+By packaging your work, you not only streamline your own workflow but also contribute useful tools to others.
+In this chapter, the previous chapters will be analysed to check for any repetitive code.
+This code will be turned into functions, combined into my first R package.</p>
+<hr />
+<div id="the-demo" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> The Demo<a href="r-package.html#the-demo" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To start creating the R package, the <a href="https://r-pkgs.org/whole-game.html">“The Whole Game”</a> demo by Hadley Wickham was followed.
+This demo provided a comprehensive guide to setting up the package, connecting it to Git, and writing the first function.
+It covered useful packages such as roxygen2 and testthat.
+A brief summary of the packages and functions was created based on what I learned in the demo for future reference.</p>
+</div>
+<div id="r-markdown-driven-development" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> R-markdown driven development<a href="r-package.html#r-markdown-driven-development" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The “Start with RMarkdown” approach involves beginning with a pre-written RMarkdown file and its scripts, rather than starting from scratch.</p>
+<p>Creating a complete all-in-one package from an RMarkdown-based analysis has many advantages for reproducibility.
+Typically, sharing involves an RMarkdown file, functions, tidy data, the steps to tidy the data, the analysis, and the used packages.
+Combining these elements into an R package streamlines the process, making it easier to share and reuse for multiple purposes and datasets.</p>
+</div>
+<div id="package-hanaahrtidy" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Package “HanaahRTidy”<a href="r-package.html#package-hanaahrtidy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The package can be installed via github: devtools::install_github(“Khadijadata/HanaahRTidy”).</p>
+<div id="choosing-a-name" class="section level3 hasAnchor" number="6.3.1">
+<h3><span class="header-section-number">6.3.1</span> Choosing a name<a href="r-package.html#choosing-a-name" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>I searched for a name that was both unique and held personal meaning. After careful thought, I decided to name it after my mother. Despite her struggles to comprehend it, she consistently offers invaluable advice and feedback on my portfolio when I need it most.</p>
+</div>
+<div id="overview-package" class="section level3 hasAnchor" number="6.3.2">
+<h3><span class="header-section-number">6.3.2</span> Overview package<a href="r-package.html#overview-package" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The package currently includes the following 4 functions:</p>
+<ul>
+<li><p>split_datetime()
+Description: This function splits a datetime column into separate columns for date and time.
+Usage: split_datetime(datetime_column)
+Returns: A data frame with additional columns for date and time.</p></li>
+<li><p>convert_to_factor()
+Description: This function converts a column with textual values into a factor variable, which is useful for categorical data analyses.
+Usage: convert_to_factor(text_column)
+Returns: A factor variable.</p></li>
+<li><p>plot_time_series_forecast()
+Description: This function plots a time series forecast using a specified forecasting model.
+Usage: plot_time_series_forecast(time_series_data, forecast_model)
+Returns: A plot of the time series forecast.</p></li>
+<li><p>import_data()
+Description: This function imports data from a specified file format and converts it into a format suitable for analysis.</p></li>
+</ul>
 
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="curriculum-vitae.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="pathway-analysis-using-clusterprofile-r-package.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="reproducible-research-peer-review.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="antimicrobial-resistance-projecticum.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
