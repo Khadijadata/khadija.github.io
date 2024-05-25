@@ -18,7 +18,7 @@
 .book .book-summary ul.summary li.active>a {
     color: #777 !important;
     border-left: solid 6px;
-    border-color: #71a390;
+    border-color: #333;
     padding-left: 9px !important;
 }.hero-image {
     width: 100%;
