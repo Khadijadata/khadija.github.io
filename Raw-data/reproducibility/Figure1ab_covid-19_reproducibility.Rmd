@@ -1,0 +1,672 @@
+```{r}
+
+# Load packages ----
+install.packages("meta")
+library(meta)
+
+library(dplyr)
+library(lubridate)
+library(meta)
+library(purrr)
+#library(readxl) # Also used, not loaded
+#library(writexl) # Also used, not loaded
+
+
+# Load files ----
+
+sero <- readxl::read_xlsx("/Users/kzzba/Downloads/bookdown_khadija/ifr-data1.xlsx", sheet = "seroprevalence")
+mort <- readxl::read_xlsx("/Users/kzzba/Downloads/bookdown_khadija/ifr-data1.xlsx", sheet = "mortality")
+pop <- readxl::read_xlsx("/Users/kzzba/Downloads/bookdown_khadija/ifr-data1.xlsx", sheet = "population")
+adj_calc_ci <- readxl::read_xlsx("/Users/kzzba/Downloads/bookdown_khadija/ifr-data2-ci.xlsx")
+
+
+# Merge all ---- 
+
+all <- left_join(sero, select(mort, !matches("estimate_nr|location")), by = "study")
+all <- left_join(all, select(pop, !matches("estimate_nr|location|age_cutoff_mort")), by = "study")
+
+
+# Set variable class for certain variables ---- 
+
+vars <- c("perc_pop_elderly_nurs", "pop_elderly_nurs", "pop_nurs", "pop_elderly", 
+"perc_pop_nurs", "pop_overall", "perc_pop_nurs", "crude_seroprevalence", "number_positive", 
+"number_tested", "adj_seroprevalence", "infected_elderly", "adj_sero_g1", "adj_sero_g2", 
+"adj_sero_g3", "adj_sero_g4", "adj_sero_g5", "pop_g1", "pop_g2", "pop_g3", "pop_g4",
+"pop_g5", "pop_g_all", "crude_seroprevalence1", "perc_nursing_date3", "nursing_homes_date3", 
+"residence_date3", "elderly_date2", "age_date2", "deaths_date1", "perc_elderly_date2", 
+"elderly_date1", "pop_nurs1", "pop_elderly_com", "pop_elderly_85",
+"crude_sero_ci_lower", "crude_sero_ci_upper",	"crude_sero_ci_lower1",	
+"crude_sero_ci_upper1", "adj_sero_ci_lower",	"adj_sero_ci_upper",	
+"adj_seroprevalence2",	"adj_sero_ci_lower2",	"adj_sero_ci_upper2",
+"deaths_date1_standard", "deaths_dateX_standard", "assay_sensitivity", "assay_specificity")
+
+all <- modify_at(all, vars, ~as.numeric(.x)) #NAs will be introduced, that is OK
+
+
+
+## ------- ##
+# Script will now create variables for calculation of infection fatality rate (IFR) 
+# Some are intermediate variables only used in later steps in the calculation
+# Variable metadata are described below and in the sheet "metadata" of 
+# "ifr-data1.xlsx"
+## ------- ##
+
+
+
+# perc_pop_elderly_nurs ----  
+#Percentage of nursing home population that are elderly. 
+#Nominator: Elderly
+#Denominator: Nursing home population
+#Extracted if available, otherwise imputed as mean of other values.
+
+all <- mutate(all, perc_pop_elderly_nurs = case_when(
+  !is.na(perc_pop_elderly_nurs) ~ perc_pop_elderly_nurs,
+  !is.na(pop_elderly_nurs) ~ pop_elderly_nurs/pop_nurs,
+  TRUE ~ NA_real_
+))
+
+all <- mutate(all, perc_pop_elderly_nurs = case_when(
+  !is.na(perc_pop_elderly_nurs) ~ perc_pop_elderly_nurs,
+  TRUE ~ mean(perc_pop_elderly_nurs, na.rm = T)
+))
+#test <- all[,c("study","location","perc_pop_elderly_nurs")] #To uncomment and view for proofreading
+
+
+# pop_elderly_com ----
+#Population size in community-dwelling elderly, estimated using
+#pop_elderly, pop_nurs, and perc_pop_elderly_nurs
+
+all <- mutate(all, pop_elderly_com = case_when(
+  !is.na(pop_nurs) ~ pop_elderly-(pop_nurs*perc_pop_elderly_nurs),
+  !is.na(perc_pop_nurs) ~ pop_elderly-(pop_overall*perc_pop_nurs*perc_pop_elderly_nurs),
+  TRUE ~ NA_real_
+))
+#test <- all[,c("study","location","pop_elderly_com")]
+
+
+# perc_pop_nurs2 ----
+#Percentage of ELDERLY that are in nursing homes
+#Nominator: Nursing home population
+#Denominator: Elderly in total population
+all <- mutate(all, perc_pop_nurs2 = case_when(
+  !is.na(pop_nurs) ~ pop_nurs/pop_elderly,
+  !is.na(perc_pop_nurs) ~ perc_pop_nurs*pop_overall/pop_elderly,
+  TRUE ~ NA_real_
+))
+
+
+# crude_seroprevalence1 ----
+
+all <- mutate(all, crude_seroprevalence1 = case_when(
+  !is.na(crude_seroprevalence) ~ crude_seroprevalence,
+  !is.na(number_positive) ~ number_positive/number_tested*100,
+  TRUE ~ NA_real_
+))
+#test <- all[,c("study","location","crude_seroprevalence1")]
+
+
+# infected_elderly_com	----
+#Number of infected people among community-dwelling elderly for date 1.
+#Estimated by multiplying the adjusted estimate (or if unavailable, the unadjusted) of
+#seroprevalence in the elderly group with pop_elderly_com. 
+#For studies with adjusted seroprevalence available only for multiple age strata, e.g.,
+#70-79, 80-89, 90+, we multiply seroprevalence with the population size in the
+#corresponding stratum (after subtracting the number of elderly nursing home residents)
+
+#Exception for S11 (Iceland), where we have extracted infected_elderly from the seroprevalence study,
+#and subtract 5 infected persons that were nursing home residents
+#Exception for S41 (USA), where we add the number of cases in community-dwelling elderly
+#(n=215,447) since the study did not include persons previously diagnosed with COVID-19 
+#Exception for S04 (England), where we calculate the number of infected in 65+ (cutoff for
+#seroprevalence data) and extrapolate to an elderly group 70+ (cutoff for mortality data)
+
+all <- mutate(all, infected_elderly_com = case_when(
+  !is.na(adj_seroprevalence) ~ adj_seroprevalence/100*pop_elderly_com,
+  !is.na(infected_elderly) ~ infected_elderly-5,
+  !is.na(adj_sero_g5) ~
+    adj_sero_g5/100*(pop_g5-(pop_nurs*perc_pop_elderly_nurs*pop_g5/pop_g_all)) + 
+    adj_sero_g4/100*(pop_g4-(pop_nurs*perc_pop_elderly_nurs*pop_g4/pop_g_all)) +
+    adj_sero_g3/100*(pop_g3-(pop_nurs*perc_pop_elderly_nurs*pop_g3/pop_g_all)) + 
+    adj_sero_g2/100*(pop_g2-(pop_nurs*perc_pop_elderly_nurs*pop_g2/pop_g_all)) +
+    adj_sero_g1/100*(pop_g1-(pop_nurs*perc_pop_elderly_nurs*pop_g1/pop_g_all)),
+  !is.na(adj_sero_g4) ~
+    adj_sero_g4/100*(pop_g4-(pop_nurs*perc_pop_elderly_nurs*pop_g4/pop_g_all)) +
+    adj_sero_g3/100*(pop_g3-(pop_nurs*perc_pop_elderly_nurs*pop_g3/pop_g_all)) + 
+    adj_sero_g2/100*(pop_g2-(pop_nurs*perc_pop_elderly_nurs*pop_g2/pop_g_all)) +
+    adj_sero_g1/100*(pop_g1-(pop_nurs*perc_pop_elderly_nurs*pop_g1/pop_g_all)),
+  !is.na(adj_sero_g3) ~
+    adj_sero_g3/100*(pop_g3-(pop_nurs*perc_pop_elderly_nurs*pop_g3/pop_g_all)) + 
+    adj_sero_g2/100*(pop_g2-(pop_nurs*perc_pop_elderly_nurs*pop_g2/pop_g_all)) +
+    adj_sero_g1/100*(pop_g1-(pop_nurs*perc_pop_elderly_nurs*pop_g1/pop_g_all)),
+  !is.na(adj_sero_g2) ~
+    adj_sero_g2/100*(pop_g2-(pop_nurs*perc_pop_elderly_nurs*pop_g2/pop_g_all)) +
+    adj_sero_g1/100*(pop_g1-(pop_nurs*perc_pop_elderly_nurs*pop_g1/pop_g_all)),
+  !is.na(crude_seroprevalence1) ~ crude_seroprevalence1/100*pop_elderly_com,
+  TRUE ~ NA_real_
+))
+
+all <- mutate(all, infected_elderly_com = case_when(
+  grepl("S04", study) ~ (infected_elderly_com/(pop_g_all-pop_nurs*perc_pop_elderly_nurs))*pop_elderly_com, #Since infected_elderly_com is calculated for 65+ while mortality data is for 70+
+  grepl("S41", study) ~ infected_elderly_com + 215447,
+  TRUE ~ infected_elderly_com
+))
+
+#test <- all[,c("study","location","infected_elderly_com",
+#               "perc_pop_elderly_nurs",
+#               "perc_pop_nurs2")]
+
+
+# infected_elderly_all ----
+#Number of infected people among all elderly for date 1.
+#For S11 (Iceland), this number was extracted directly (infected_elderly)
+#Exception for S41 (USA), where we add the number of cases in elderly
+#(n=455,585) since the study did not include persons previously diagnosed with COVID-19 
+
+all <- mutate(all, infected_elderly_all = case_when(
+  !is.na(adj_seroprevalence) ~ adj_seroprevalence/100*pop_elderly,
+  !is.na(infected_elderly) ~ infected_elderly,
+  !is.na(adj_sero_g5) ~
+    ((adj_sero_g5/100*pop_g5 + 
+    adj_sero_g4/100*pop_g4 +
+    adj_sero_g3/100*pop_g3 + 
+    adj_sero_g2/100*pop_g2 +
+    adj_sero_g1/100*pop_g1)/pop_g_all)*pop_elderly,
+  !is.na(adj_sero_g4) ~
+    ((adj_sero_g4/100*pop_g4 +
+    adj_sero_g3/100*pop_g3 + 
+    adj_sero_g2/100*pop_g2 +
+    adj_sero_g1/100*pop_g1)/pop_g_all)*pop_elderly,
+  !is.na(adj_sero_g3) ~
+    ((adj_sero_g3/100*pop_g3 + 
+    adj_sero_g2/100*pop_g2 +
+    adj_sero_g1/100*pop_g1)/pop_g_all)*pop_elderly,
+  !is.na(adj_sero_g2) ~
+    ((adj_sero_g2/100*pop_g2 +
+    adj_sero_g1/100*pop_g1)/pop_g_all)*pop_elderly,
+  !is.na(crude_seroprevalence1) ~ crude_seroprevalence1/100*pop_elderly,
+  TRUE ~ NA_real_
+))
+
+all <- mutate(all, infected_elderly_all = case_when(
+  grepl("S41", study) ~ infected_elderly_all + 455585,
+  TRUE ~ infected_elderly_all
+))
+
+
+# adj_seroprevalence1 ----
+#Adjusted seroprevalence (in %)
+#Extracted or calculated using groups g1-gX and corresponding seroprevalence
+#For Iceland, estimated using the extracted number of infected elderly and
+#the number of elderly in the population
+
+all <- mutate(all, adj_seroprevalence1 = case_when(
+  grepl("S11", study) ~ infected_elderly_all/pop_elderly*100,
+  !is.na(adj_seroprevalence) ~ adj_seroprevalence,
+  !is.na(adj_sero_g1) ~ infected_elderly_com/pop_elderly_com*100,
+  TRUE ~ NaN
+))
+#test <- all[,c("study","location","adj_seroprevalence1")]
+
+
+# perc_nursing_date3 ----
+#Proportion of COVID-19 fatalities in nursing home residents (among all deaths).
+#If missing, this is imputed (Brazil, India, Dominican Republic, Qatar)
+#For S24, which does not include deaths among nursing home residents occurring in hospitals, 
+#we multiply by 1.225 (the median of the ratio of deaths in nursing home residents / deaths occurring 
+#in nursing homes, in the European countries with such data in the LTC PN report October 14).
+
+all <- mutate(all, perc_nursing_date3 = case_when(
+  !is.na(perc_nursing_date3) ~ perc_nursing_date3,
+  !is.na(nursing_homes_date3) ~ nursing_homes_date3/residence_date3,
+  grepl("brazil|india|dominican|qatar", location, ignore.case = T) ~ 0.10,
+  TRUE ~ NA_real_
+))
+
+all <- mutate(all, perc_nursing_date3 = ifelse(grepl("S24", study), perc_nursing_date3*1.225,
+                                               perc_nursing_date3))
+#test <- all[,c("study","location","perc_nursing_date3")]
+
+
+# perc_deaths_elderly_nurs	----
+#Proportion of COVID-19 fatalities in the elderly group of nursing home
+#residents (among all deaths). Estimated using nursing_homes_date3 (multiplied by 0.95 if cutoff
+#is 70 years, 0.98 if cutoff is 65 years, and 0.99 if cutoff is 60 years), and residence_date3.
+#For S11, no correction is done (we have the exact numbers)
+#For S28a, no correction is done (all deaths in nursing homes were in persons >70 years)
+
+all <- mutate(all, perc_deaths_elderly_nurs = case_when(
+  is.na(perc_nursing_date3) ~ NA_real_,
+  grepl("S11|S28a", study) ~ perc_nursing_date3,
+  age_cutoff_mort == "70" ~ perc_nursing_date3*0.95,
+  age_cutoff_mort == "65" ~ perc_nursing_date3*0.98,
+  age_cutoff_mort == "60"|age_cutoff_mort == "61" ~ perc_nursing_date3*0.99,
+))
+#test <- all[,c("study","location","perc_deaths_elderly_nurs")]
+
+
+# deaths_elderly_com	----
+#Number of COVID-19 fatalities in community-dwelling elderly for date 1.
+#Estimated using deaths_date1 multiplied by: the proportion of elderly deaths (elderly_date2/age_date2 or
+#perc_elderly_date2) minus the proportion of elderly nursing home deaths (perc_deaths_elderly_nurs)
+
+all <- mutate(all, deaths_elderly_com = case_when(
+  !is.na(perc_deaths_elderly_nurs) & !is.na(elderly_date2) ~ 
+    (elderly_date2/age_date2 - perc_deaths_elderly_nurs)*deaths_date1,
+  !is.na(perc_deaths_elderly_nurs) & !is.na(perc_elderly_date2) ~ 
+    (perc_elderly_date2 - perc_deaths_elderly_nurs)*deaths_date1,
+  TRUE ~ NA_real_
+))
+#test <- all[,c("study","location","deaths_elderly_com")]
+
+
+# elderly_date1	----
+#COVID-19 deaths in elderly group for date 1, estimated using elderly_date2, age_date2,
+#and deaths_date1
+
+all <- mutate(all, elderly_date1 = case_when(
+  !is.na(elderly_date2) ~ (elderly_date2/age_date2)*deaths_date1,
+  !is.na(perc_elderly_date2) ~ perc_elderly_date2*deaths_date1,
+  TRUE ~ NA_real_
+))
+#test <- all[,c("study","location","elderly_date1")]
+
+
+# ifr_uncorr_elderly_com	----
+#Infection-fatality rate in community-dwelling elderly, uncorrected.
+#Estimated dividing deaths_elderly_com by infected_elderly_com
+
+all <- mutate(all, ifr_uncorr_elderly_com = case_when(
+  !is.na(deaths_elderly_com) ~ deaths_elderly_com/infected_elderly_com,
+  TRUE ~ NA_real_
+))
+#test <- all[,c("study","location","ifr_uncorr_elderly_com")]
+
+
+
+# ifr_uncorr_elderly_all ----
+#Infection-fatality rate in all elderly, uncorrected
+
+all <- mutate(all, ifr_uncorr_elderly_all = case_when(
+  !is.na(elderly_date1) ~ elderly_date1/infected_elderly_all,
+  TRUE ~ NA_real_
+))
+#test <- all[,c("study","location","ifr_uncorr_elderly_all")]
+
+
+
+
+# antibody_type2 ----
+
+all <- mutate(all, antibody_type2 = case_when(
+  grepl("total|pan.Ig|IgG, IgM, IgA", antibody_type, ignore.case = T) ~ "IgG/IgM/IgA",
+  grepl("IgG and.or IgM|IgG, IgM", antibody_type, ignore.case = T) ~ "IgG/IgM",
+  grepl("missing|unclear", antibody_type, ignore.case = T) ~ "Missing/Unclear",
+  TRUE ~ antibody_type
+))
+
+
+# ifr_corr_elderly_com	----
+#Infection-fatality rate in community-dwelling elderly.
+#Estimated dividing deaths_elderly_com by infected_elderly_com.
+#Divided by 1.10 for each non-measured antibody (IgG, IgM, IgA).
+
+all <- mutate(all, ifr_corr_elderly_com = case_when(
+  grepl("IgG.IgM.IgA|missing", antibody_type2, ignore.case = T) ~ 
+    ifr_uncorr_elderly_com,
+  grepl("^IgG$", antibody_type2, ignore.case = T) ~ ifr_uncorr_elderly_com*0.9*0.9,
+  grepl("IgG.IgM", antibody_type2, ignore.case = T) ~ ifr_uncorr_elderly_com*0.9
+))
+
+
+# ifr_corr_elderly_all	----
+#Infection-fatality rate in elderly overall
+#Divided by 1.10 for each non-measured antibody (IgG, IgM, IgA).
+
+all <- mutate(all, ifr_corr_elderly_all = case_when(
+  grepl("IgG.IgM.IgA|missing", antibody_type2, ignore.case = T) ~ 
+    ifr_uncorr_elderly_all,
+  grepl("^IgG$", antibody_type2, ignore.case = T) ~ ifr_uncorr_elderly_all*0.9*0.9,
+  grepl("IgG.IgM", antibody_type2, ignore.case = T) ~ ifr_uncorr_elderly_all*0.9
+))
+
+# sensitivity_change_deaths ----
+
+all <- mutate(all, sensitivity_change_deaths = case_when(
+  !is.na(deaths_date1_standard) ~ 
+    round(((all$deaths_dateX_standard/all$deaths_date1_standard)-1)*100, digits = 2),
+  TRUE ~ NA_real_
+))
+
+all <- mutate(all, ifr_change = case_when(
+  !is.na(sensitivity_change_deaths) ~ 
+    ifr_uncorr_elderly_com*(1+sensitivity_change_deaths/100),
+  TRUE ~ ifr_uncorr_elderly_com
+))
+
+# Seroreversion correction ----
+#We explored a seroreversion correction of the IFR by X^m-fold, where m is the number of months 
+#from the peak of the first epidemic wave in the specific location and X is given values of 0.99, 0.95, 
+#and 0.90 corresponding to 1%, 5%, and 10% relative rate of seroreversion every month.
+
+all <- mutate(all, mortality_peak1 = case_when(
+  grepl("2021", mortality_peak) ~ mortality_peak,
+  !is.na(all$mortality_peak) ~ paste(all$mortality_peak, "2020", sep = ", "), 
+  TRUE ~ NA_character_))
+all$mortality_peak1 <- mdy(all$mortality_peak1)
+all$preferred_date1 <- paste(all$preferred_date, "2020", sep = ", ")
+all$preferred_date1 <- mdy(all$preferred_date1)
+all$peak <- all$mortality_peak1 - weeks(x=1)
+all$time_lag_months <- (all$mortality_peak1 %--% all$preferred_date1)/dmonths(x=1)
+all$time_lag_days <- (all$mortality_peak1 %--% all$preferred_date1)/ddays(x=1)
+
+
+# ifr_serorevers1, ifr_serorevers5, ifr_serorevers10 ----
+
+all <- mutate(all, ifr_serorevers1 = ifelse(!is.na(time_lag_months)&!time_lag_months<0,
+                                            ifr_uncorr_elderly_com*(0.99^time_lag_months),ifr_uncorr_elderly_com))
+
+all <- mutate(all, ifr_serorevers5 = ifelse(!is.na(time_lag_months)&!time_lag_months<0,
+                                            ifr_uncorr_elderly_com*(0.95^time_lag_months),ifr_uncorr_elderly_com))
+
+all <- mutate(all, ifr_serorevers10 = ifelse(!is.na(time_lag_months)&!time_lag_months<0,
+                                             ifr_uncorr_elderly_com*(0.90^time_lag_months),ifr_uncorr_elderly_com))
+
+all <- mutate(all, ifr_serorevers5_all = ifelse(!is.na(time_lag_months)&!time_lag_months<0,
+                                              ifr_uncorr_elderly_all*(0.95^time_lag_months),ifr_uncorr_elderly_com))
+
+#test <- all[,c("study","location","preferred_date", "peak", "time_lag_months", "ifr_uncorr_elderly_com",
+#               "ifr_serorevers10")]
+
+
+# continent ----
+
+all <- mutate(all, continent = case_when(
+  grepl("Andorra|Belgium|Denmark|England|UK|Iceland|Hungary|Spain|Scotland|France|Italy|Germany|Netherlands|Lithuania", location) ~ "Europe",
+  grepl("USA|Dominican|Brazil|Canada", location) ~ "Americas",
+  grepl("India|China|Qatar|Taiwan|Israel", location) ~ "Asia",
+  TRUE ~ NA_character_
+))
+
+# location2 ----
+all <- mutate(all, location2 = case_when(
+  grepl("England|UK|Scotland", location) ~ "UK",
+  grepl("Canada", location) ~ "Canada",
+  grepl("India", location) ~ "India",
+  grepl("Qatar", location) ~ "Qatar",
+  grepl("USA", location) ~ "USA",
+  grepl("France", location) ~ "France",
+  TRUE ~ location
+))
+
+# economy ----
+all <- mutate(all, economy = case_when(
+  grepl("China|Brazil|Dominican|India", location2) ~ "Middle-income",
+  TRUE ~ "High-income"
+))
+
+
+# perc_elderly_date1 ----
+#Proportion of all COVID-19 deaths occurring in elderly overall ----
+#S24 has been corrected using the 1.225 ratio (see above)
+
+all <- mutate(all, perc_elderly_date1 = case_when(
+  is.na(perc_elderly_date2) ~ elderly_date2/age_date2,
+  TRUE ~ perc_elderly_date2
+))
+#test <- included[,c("study","perc_elderly_date1")]
+
+
+# Aggregate multiple estimates per country ----
+#Grouping estimates of the IFR from studies in the same country 
+#together and calculating a single IFR for that location, 
+#weighting the study-specific IFRs by the sample size of each study
+
+#Temporarily delete convenience samples
+convenience <- subset(all, filter_main_analysis == "No")
+all <- subset(all, filter_main_analysis == "Yes")
+
+all <- group_by(all, location2)
+#n_groups(all)
+all <- mutate(all, test = sum(number_tested))
+all <- mutate(all, weight = case_when(
+  !is.na(number_tested) ~ number_tested/sum(number_tested),
+  TRUE ~ 1
+))
+all <- mutate(all, ifr_corr_elderly_com_country = sum(ifr_corr_elderly_com*weight))
+all <- mutate(all, ifr_uncorr_elderly_com_country = sum(ifr_uncorr_elderly_com*weight))
+all <- mutate(all, ifr_corr_elderly_all_country = sum(ifr_corr_elderly_all*weight))
+all <- mutate(all, ifr_uncorr_elderly_all_country = sum(ifr_uncorr_elderly_all*weight))
+all <- mutate(all, ifr_serorevers5_country = sum(ifr_serorevers5*weight))
+all <- mutate(all, ifr_serorevers5_country_all = sum(ifr_serorevers5_all*weight))
+all <- mutate(all, ifr_change_country = sum(ifr_change*weight))
+all <- ungroup(all)
+
+#test <- all[,c("study", "location", "number_tested", "test", "weight")]
+#test <- all[,c("study","location","number_tested", "test","weight", "ifr_corr_elderly_com_country",
+#               "ifr_uncorr_elderly_com_country", "ifr_uncorr_elderly_all_country",
+#               "ifr_corr_elderly_all_country", "ifr_serorevers5_country")]
+
+
+# Preparation for median IFR: dataset with countries ----
+
+countries <- subset(all, !duplicated(location2))
+countries <- select(countries, c("location2", "ifr_corr_elderly_com_country", 
+                "ifr_uncorr_elderly_com_country", "ifr_corr_elderly_all_country",
+                "ifr_uncorr_elderly_all_country", "ifr_serorevers5_country",
+                "ifr_serorevers5_country_all", "ifr_change_country",
+                "age_cutoff_mort", "economy"))
+
+countries <- mutate(countries, age_cutoff_mort = case_when(
+  grepl("UK", location2) ~ "70",
+  grepl("Canada", location2) ~ "70",
+  grepl("India", location2) ~ "61",
+  grepl("USA", location2) ~ "65",
+  grepl("France", location2) ~ "65",
+  TRUE ~ age_cutoff_mort
+))
+
+#Put back convenience samples
+convenience$test <- NA
+convenience$weight <- NA
+convenience$ifr_corr_elderly_com_country <- NA
+convenience$ifr_uncorr_elderly_com_country <- NA
+convenience$ifr_corr_elderly_all_country <- NA
+convenience$ifr_uncorr_elderly_all_country <- NA
+convenience$ifr_serorevers5_country <- NA
+convenience$ifr_serorevers5_country_all <- NA
+convenience$ifr_change_country <- NA
+
+all <- bind_rows(all, convenience) #Add variables
+
+
+## Confidence intervals for seroprevalence ----
+#Derives combined point estimate and confidence intervals from 
+#adjusted estimates for multiple age bins from same study (in cases where confidence 
+#intervals are not available for the whole elderly group)
+
+#Note that the 95% CIs generated by this code section have been entered in the
+#input data file. Code is shown here for proofreading.
+
+adj_calc_ci <- modify_at(adj_calc_ci, c(2:4), ~as.numeric(.x))
+studies_ci <- unique(adj_calc_ci$study)
+adj_calc_ci <- modify_at(adj_calc_ci, c(2:4), ~asin(sqrt(.x/100)))
+adj_calc_ci_list <- split(adj_calc_ci, adj_calc_ci$study)
+list2env(adj_calc_ci_list, envir = .GlobalEnv)
+
+mtgenS04 <- metagen(data = S04, TE=adj_sero, lower = adj_sero_ci_lower, upper = adj_sero_ci_upper, comb.random = F)
+mtgenS07 <- metagen(data = S07, TE=adj_sero, lower = adj_sero_ci_lower, upper = adj_sero_ci_upper, comb.random = F)
+mtgenS10 <- metagen(data = S10, TE=adj_sero, lower = adj_sero_ci_lower, upper = adj_sero_ci_upper, comb.random = F)
+mtgenS13c <- metagen(data = S13c, TE=adj_sero, lower = adj_sero_ci_lower, upper = adj_sero_ci_upper, comb.random = F)
+mtgenS24a <- metagen(data = S24a, TE=adj_sero, lower = adj_sero_ci_lower, upper = adj_sero_ci_upper, comb.random = F)
+mtgenS28a <- metagen(data = S28a, TE=adj_sero, lower = adj_sero_ci_lower, upper = adj_sero_ci_upper, comb.random = F)
+mtgenS30a <- metagen(data = S30a, TE=adj_sero, lower = adj_sero_ci_lower, upper = adj_sero_ci_upper, comb.random = F)
+mtgenP3395 <- metagen(data = P3395, TE=adj_sero, lower = adj_sero_ci_lower, upper = adj_sero_ci_upper, comb.random = F)
+mtgenP3242 <- metagen(data = P3242, TE=adj_sero, lower = adj_sero_ci_lower, upper = adj_sero_ci_upper, comb.random = F)
+mtgenP2938 <- metagen(data = P2938, TE=adj_sero, lower = adj_sero_ci_lower, upper = adj_sero_ci_upper, comb.random = F)
+#mtgenS30b <- metagen(data = S30b, TE=adj_sero, lower = adj_sero_ci_lower, upper = adj_sero_ci_upper, comb.random = F)
+#mtgenS30b does not calculate because of 0 values; replaced by 95% CIs based on crude numbers
+
+map(c(mtgenS04$TE.fixed, mtgenS04$lower.fixed, mtgenS04$upper.fixed), ~(sin(.x))^2*100)
+map(c(mtgenS07$TE.fixed, mtgenS07$lower.fixed, mtgenS07$upper.fixed), ~(sin(.x))^2*100)
+map(c(mtgenS10$TE.fixed, mtgenS10$lower.fixed, mtgenS10$upper.fixed), ~(sin(.x))^2*100)
+map(c(mtgenS13c$TE.fixed, mtgenS13c$lower.fixed, mtgenS13c$upper.fixed), ~(sin(.x))^2*100)
+map(c(mtgenS24a$TE.fixed, mtgenS24a$lower.fixed, mtgenS24a$upper.fixed), ~(sin(.x))^2*100)
+map(c(mtgenS28a$TE.fixed, mtgenS28a$lower.fixed, mtgenS28a$upper.fixed), ~(sin(.x))^2*100)
+map(c(mtgenS30a$TE.fixed, mtgenS30a$lower.fixed, mtgenS30a$upper.fixed), ~(sin(.x))^2*100)
+map(c(mtgenP3395$TE.fixed, mtgenP3395$lower.fixed, mtgenP3395$upper.fixed), ~(sin(.x))^2*100)
+map(c(mtgenP3242$TE.fixed, mtgenP3242$lower.fixed, mtgenP3242$upper.fixed), ~(sin(.x))^2*100)
+map(c(mtgenP2938$TE.fixed, mtgenP2938$lower.fixed, mtgenP2938$upper.fixed), ~(sin(.x))^2*100)
+#map(c(mtgenS30b$TE.fixed, mtgenS30b$lower.fixed, mtgenS30b$upper.fixed), ~(sin(.x))^2*100)
+
+# seroprevalence_final ----
+
+all <- mutate(all, seroprevalence_final = case_when(
+  !is.na(adj_seroprevalence1) ~ adj_seroprevalence1,
+  !is.na(crude_seroprevalence1) ~ crude_seroprevalence1,
+  TRUE ~ NA_real_
+))
+
+# seroprevalence_final_type ----
+
+all <- mutate(all, seroprevalence_final_type = case_when(
+  !is.na(adj_seroprevalence1) ~ "Adjusted",
+  !is.na(crude_seroprevalence1) ~ "Crude",
+  TRUE ~ NA_character_
+))
+
+#test <- all[,c("study", "adj_seroprevalence1", "adj_seroprevalence2", 
+#               "crude_seroprevalence1", "seroprevalence_final",
+#               "seroprevalence_final_type")]
+
+
+# ifr_uncorr_elderly_com_ci_point ----
+
+all <- mutate(all, ifr_uncorr_elderly_com_ci_point = case_when(
+  !is.na(adj_seroprevalence2) ~ 
+    ifr_uncorr_elderly_com/(adj_seroprevalence1/100)*(adj_seroprevalence2/100),
+  TRUE ~ ifr_uncorr_elderly_com
+))
+
+
+# ifr_uncorr_elderly_com_ci_lower ----
+
+all <- mutate(all, ifr_uncorr_elderly_com_ci_lower = case_when(
+  !is.na(adj_seroprevalence1)&!is.na(adj_sero_ci_lower) ~ 
+    ifr_uncorr_elderly_com/(adj_seroprevalence1/100)*(adj_sero_ci_lower/100),
+  !is.na(adj_seroprevalence1)&!is.na(adj_sero_ci_lower2) ~ 
+    ifr_uncorr_elderly_com/(adj_seroprevalence1/100)*(adj_sero_ci_lower2/100),
+  !is.na(crude_seroprevalence1)&!is.na(crude_sero_ci_lower) ~
+    ifr_uncorr_elderly_com/(crude_seroprevalence1/100)*(crude_sero_ci_lower/100),
+  !is.na(crude_seroprevalence1)&!is.na(crude_sero_ci_lower1) ~
+    ifr_uncorr_elderly_com/(crude_seroprevalence1/100)*(crude_sero_ci_lower1/100),
+  grepl("S11", study) ~ 0.019,
+  TRUE ~ NA_real_
+))
+
+# ifr_uncorr_elderly_com_ci_upper ----
+
+all <- mutate(all, ifr_uncorr_elderly_com_ci_upper = case_when(
+  !is.na(adj_seroprevalence1)&!is.na(adj_sero_ci_upper) ~ 
+    ifr_uncorr_elderly_com/(adj_seroprevalence1/100)*(adj_sero_ci_upper/100),
+  !is.na(adj_seroprevalence1)&!is.na(adj_sero_ci_upper2) ~ 
+    ifr_uncorr_elderly_com/(adj_seroprevalence1/100)*(adj_sero_ci_upper2/100),
+  !is.na(crude_seroprevalence1)&!is.na(crude_sero_ci_upper) ~
+    ifr_uncorr_elderly_com/(crude_seroprevalence1/100)*(crude_sero_ci_upper/100),
+  !is.na(crude_seroprevalence1)&!is.na(crude_sero_ci_upper1) ~
+    ifr_uncorr_elderly_com/(crude_seroprevalence1/100)*(crude_sero_ci_upper1/100),
+  grepl("S11", study) ~ 0.083,
+  TRUE ~ NA_real_
+))
+
+test <- all[,c("study", "location", "adj_seroprevalence1", "adj_seroprevalence2", 
+               "adj_sero_ci_lower2", "adj_sero_ci_upper2",
+               "ifr_uncorr_elderly_com",
+               "ifr_uncorr_elderly_com_ci_point", "ifr_uncorr_elderly_com_ci_lower",
+               "ifr_uncorr_elderly_com_ci_upper")]
+
+
+# Heterogeneity measure: I-squared ----
+
+mtgen <- metagen(data = all, TE=ifr_uncorr_elderly_com_ci_point, 
+                 lower = ifr_uncorr_elderly_com_ci_lower, 
+                 upper = ifr_uncorr_elderly_com_ci_upper, prediction=T)
+mtgen #to get I-squared: 99.1%
+
+install.packages("writexl")
+library(writexl)
+
+install.packages("tidyr")
+library(tidyr)
+
+today <- "2024-05-04" #Enter today's date in format YYYY-MM-DD
+
+writexl::write_xlsx(all, paste0("ifr-all-variables-", today, ".xlsx"))
+writexl::write_xlsx(countries, paste0("ifr-countries-", today, ".xlsx"))
+writexl::write_xlsx(test, paste0("seroprev-cis-", today, ".xlsx"))
+
+save(countries, file=paste0("countries-", today, ".rda"))
+save(all, file=paste0("all-", today, ".rda"))
+```
+
+
+
+
+
+```{r}
+
+# Figure 1A ----
+
+library(ggplot2)
+
+figure1prep <- countries
+figure1prep <- pivot_longer(figure1prep, c(3,5), names_to = "ifr_type", values_to = "ifr_uncorr_elderly")
+
+fig_alt <- subset(figure1prep, ifr_type == "ifr_uncorr_elderly_com_country")
+fig_alt <- fig_alt[order(fig_alt$economy, fig_alt$ifr_uncorr_elderly),]
+
+figure1prep$location2 <- factor(figure1prep$location2, levels = rev(fig_alt$location2))
+library(RColorBrewer)
+
+fig1com <- ggplot(figure1prep, aes(x = location2, y = ifr_uncorr_elderly))+
+  guides(colour=guide_legend(reverse=TRUE, title="Country"), shape=guide_legend(title=NULL))+
+  geom_point(aes(color=location2, shape=ifr_type), size=3)+
+  scale_shape_manual(values=c(17, 16))+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  labs(y = "IFR (%)", x = NULL)+
+  scale_color_manual(values = c(brewer.pal(9, "Set1")[-6], 
+                                rev(brewer.pal(8, "Dark2")),
+                                rev(brewer.pal(8, "Accent"))))+
+  theme(strip.background = element_blank())+
+  facet_grid(economy~., scales="free_y", space="free_y")+
+  coord_flip()
+
+pdf(paste0("figure1A-", today, ".pdf"), height = 5.5, width = 8)
+plot(fig1com)
+
+# Figure 1B ----
+#Confidence intervals, ifr_uncorr_elderly_com_ci_point, -lower, -upper
+
+all <- all[order(all$economy, all$ifr_uncorr_elderly_com_country),]
+all$location2 <- factor(all$location2, levels = rev(unique(all$location2)))
+
+fig1cis <- ggplot(all, aes(x = location2, y = ifr_uncorr_elderly_com_ci_point))+
+  geom_pointrange(aes(color=location2, ymin=ifr_uncorr_elderly_com_ci_lower, 
+                      ymax=ifr_uncorr_elderly_com_ci_upper), 
+                  position=position_jitter(width=0.3, seed = 1254))+
+  guides(colour=guide_legend(reverse=TRUE, title="Country"))+
+  theme_bw()+
+  theme(panel.grid = element_blank())+
+  labs(y = "IFR (%)", x = NULL)+
+  scale_color_manual(values = c(brewer.pal(9, "Set1")[-6], 
+                                rev(brewer.pal(8, "Dark2")),
+                                rev(brewer.pal(8, "Accent"))))+
+  theme(strip.background = element_blank())+
+  facet_grid(economy~., scales="free_y", space="free_y")+
+  coord_flip()
+pdf(paste0("figure1B-", today, ".pdf"), height = 5.5, width = 8)
+plot(fig1cis)
+
+
+```
+
