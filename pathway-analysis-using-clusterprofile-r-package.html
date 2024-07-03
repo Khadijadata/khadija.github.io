@@ -391,9 +391,9 @@ Day 4
 <h2><span class="header-section-number">2.5</span> Diving deeper into Clusterprofiler…<a href="pathway-analysis-using-clusterprofile-r-package.html#diving-deeper-into-clusterprofiler" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As preparation on how to use the Clusterprofiler package to make a pathway analysis and to get an idea on the options this package has and I can use, I have the next overview:</p>
 <div class="figure"><span style="display:block;" id="fig:dus"></span>
-<img src="Images/clusterProfiler_Overview_Wu_et_al_2021.png" alt="Visualize the selected KEGG pathway using pathview(). Gene expression values can be assigned to a gradient color scale." width="70%" />
+<img src="Images/clusterProfiler_Overview_Wu_et_al_2021.png" alt="An overview of the clusterprofiler package and the associated analysis and visualization. Clusterprofiler supports Gene set enrichment analysis and over representation analysis." width="90%" />
 <p class="caption">
-Figure 2.1: Visualize the selected KEGG pathway using pathview(). Gene expression values can be assigned to a gradient color scale.
+Figure 2.1: An overview of the clusterprofiler package and the associated analysis and visualization. Clusterprofiler supports Gene set enrichment analysis and over representation analysis.
 </p>
 </div>
 <div id="supported-analysis" class="section level3 hasAnchor" number="2.5.1">
@@ -445,42 +445,45 @@ Figure 2.1: Visualize the selected KEGG pathway using pathview(). Gene expressio
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb1-1" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;BiocManager&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb1-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb1-2" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;BiocManager&quot;</span>)</span>
 <span id="cb1-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb1-3" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb1-4" tabindex="-1"></a><span class="co"># Loading the required libraries</span></span>
-<span id="cb1-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb1-5" tabindex="-1"></a><span class="fu">library</span>(clusterProfiler)</span>
-<span id="cb1-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb1-6" tabindex="-1"></a><span class="fu">library</span>(airway)</span>
-<span id="cb1-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb1-7" tabindex="-1"></a><span class="fu">library</span>(org.Dm.eg.db)</span>
-<span id="cb1-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb1-8" tabindex="-1"></a><span class="fu">library</span>(pathview)</span>
-<span id="cb1-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb1-9" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb1-10" tabindex="-1"></a><span class="fu">library</span>(enrichplot)</span>
-<span id="cb1-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb1-11" tabindex="-1"></a><span class="fu">library</span>(org.Hs.eg.db)</span></code></pre></div>
+<span id="cb1-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb1-4" tabindex="-1"></a>BiocManager<span class="sc">::</span><span class="fu">install</span>(<span class="st">&quot;clusterProfiler&quot;</span>)</span></code></pre></div>
+<p>First, I load all the necessary libraries:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-1" tabindex="-1"></a><span class="co"># Loading the required libraries</span></span>
+<span id="cb2-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-2" tabindex="-1"></a><span class="fu">library</span>(clusterProfiler)</span>
+<span id="cb2-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-3" tabindex="-1"></a><span class="fu">library</span>(airway)</span>
+<span id="cb2-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-4" tabindex="-1"></a><span class="fu">library</span>(org.Dm.eg.db)</span>
+<span id="cb2-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-5" tabindex="-1"></a><span class="fu">library</span>(pathview)</span>
+<span id="cb2-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-6" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-7" tabindex="-1"></a><span class="fu">library</span>(enrichplot)</span>
+<span id="cb2-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-8" tabindex="-1"></a><span class="fu">library</span>(org.Hs.eg.db)</span>
+<span id="cb2-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-9" tabindex="-1"></a><span class="fu">library</span>(HanaahRTidy)</span></code></pre></div>
 </div>
 <div id="gathering-data-and-annotations" class="section level3 hasAnchor" number="2.6.3">
 <h3><span class="header-section-number">2.6.3</span> Gathering data and annotations<a href="pathway-analysis-using-clusterprofile-r-package.html#gathering-data-and-annotations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>I’m analyzing Drosophila melanogaster data, so I install and load the annotation package “org.Dm.eg.db” <a href="http://bioconductor.org/packages/release/BiocViews.html#___OrgDb">here</a>. There are also other available annotations.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-1" tabindex="-1"></a><span class="co"># Setting the organism (I chose fly for example ) </span></span>
-<span id="cb2-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-2" tabindex="-1"></a>organism <span class="ot">=</span> <span class="st">&quot;org.Dm.eg.db&quot;</span></span>
-<span id="cb2-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-3" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-4" tabindex="-1"></a><span class="co">#BiocManager::install(organism, character.only = TRUE)</span></span>
-<span id="cb2-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb2-5" tabindex="-1"></a><span class="fu">library</span>(organism, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-1" tabindex="-1"></a><span class="co"># Setting the organism (I chose fruit fly for example ) </span></span>
+<span id="cb3-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-2" tabindex="-1"></a>organism <span class="ot">=</span> <span class="st">&quot;org.Dm.eg.db&quot;</span></span>
+<span id="cb3-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-4" tabindex="-1"></a><span class="co">#BiocManager::install(organism, character.only = TRUE)</span></span>
+<span id="cb3-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-5" tabindex="-1"></a><span class="fu">library</span>(organism, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Before diving into the analysis, we first need to prepare our input data. In this step, we’re reading in data obtained from differential expression analysis using DESeq2 named “drosphila_example_de.csv”, which includes important information such as log2 fold change values. This file contains the results of a differential gene expression analysis. I found this data specifically for the Drosophila melanogaster <a href="https://github.com/nasqar/ClusterProfShinyGSEA/blob/master/www/exampleData/drosphila_example_de.csv">here</a>.</p>
 </div>
 <div id="prepare-input-for-the-go-term-ontology-enrichment-analysis-gene-list" class="section level3 hasAnchor" number="2.6.4">
 <h3><span class="header-section-number">2.6.4</span> Prepare Input for the GO term ontology enrichment analysis: Gene list<a href="pathway-analysis-using-clusterprofile-r-package.html#prepare-input-for-the-go-term-ontology-enrichment-analysis-gene-list" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>I want the log2 fold change values to use for the GO term enrichment later on, because these values tell if genes differentiate in gene expression. I also save the gene identifiers in a vector with their log2 fold change value.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-1" tabindex="-1"></a><span class="co"># Reading in data from deseq2</span></span>
-<span id="cb3-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-2" tabindex="-1"></a>drosphilia_data <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="st">&quot;drosphila_example_de.csv&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
-<span id="cb3-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-3" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-4" tabindex="-1"></a><span class="co"># I want the log2 fold change  </span></span>
-<span id="cb3-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-5" tabindex="-1"></a>original_gene_list <span class="ot">&lt;-</span> drosphilia_data<span class="sc">$</span>log2FoldChange</span>
-<span id="cb3-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-6" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-7" tabindex="-1"></a><span class="co"># Assiging the gene names from the $X column of the drosophila_data dataset to the elements of the original_gene_list vector(log2 fold) to identify each gene</span></span>
-<span id="cb3-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-8" tabindex="-1"></a><span class="fu">names</span>(original_gene_list) <span class="ot">&lt;-</span> drosphilia_data<span class="sc">$</span>X</span>
-<span id="cb3-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-9" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-10" tabindex="-1"></a><span class="co"># Remove the missing values </span></span>
-<span id="cb3-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-11" tabindex="-1"></a>gene_list<span class="ot">&lt;-</span><span class="fu">na.omit</span>(original_gene_list)</span>
-<span id="cb3-12"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-12" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-13" tabindex="-1"></a><span class="co"># The list in decreasing order (a must for clusterProfiler)</span></span>
-<span id="cb3-14"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb3-14" tabindex="-1"></a>gene_list <span class="ot">=</span> <span class="fu">sort</span>(gene_list, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-1" tabindex="-1"></a><span class="co"># Using my own function to import the drosphilia deseq2 dataset </span></span>
+<span id="cb4-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-2" tabindex="-1"></a>drosphilia_data <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;/Users/kzzba/Downloads/bookdown_khadija/drosphila_example_de.csv&quot;</span>)</span>
+<span id="cb4-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-4" tabindex="-1"></a><span class="co"># I want the log2 fold change  </span></span>
+<span id="cb4-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-5" tabindex="-1"></a>original_gene_list <span class="ot">&lt;-</span> drosphilia_data<span class="sc">$</span>log2FoldChange</span>
+<span id="cb4-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-6" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-7" tabindex="-1"></a><span class="co"># Assiging the gene names from the $X column of the drosophila_data dataset to the elements of the original_gene_list vector(log2 fold) to identify each gene</span></span>
+<span id="cb4-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-8" tabindex="-1"></a><span class="fu">names</span>(original_gene_list) <span class="ot">&lt;-</span> drosphilia_data<span class="sc">$</span>X</span>
+<span id="cb4-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-9" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-10" tabindex="-1"></a><span class="co"># Remove the missing values </span></span>
+<span id="cb4-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-11" tabindex="-1"></a>gene_list<span class="ot">&lt;-</span><span class="fu">na.omit</span>(original_gene_list)</span>
+<span id="cb4-12"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-12" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-13" tabindex="-1"></a><span class="co"># The list in decreasing order (a must for clusterProfiler)</span></span>
+<span id="cb4-14"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb4-14" tabindex="-1"></a>gene_list <span class="ot">=</span> <span class="fu">sort</span>(gene_list, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>After preparing our input data, we proceed with gene set enrichment analysis to unravel biological insights from our dataset. Using the gseGO function, we identify enriched gene ontology (GO) terms associated with the differentially expressed genes.</p>
 </div>
 <div id="go-term-enrichment-ontology-analysis" class="section level3 hasAnchor" number="2.6.5">
@@ -492,6 +495,20 @@ nPerm: The number of permutations set to 10,000 for more robust results.
 minGSSize and maxGSSize: Setting the minimum and maximum size of the gene sets.
 pvalueCutoff: We use a p-value cutoff of 0.05 to identify significant results.</p>
 <p>Output: The top results are displayed using head(gene_set_enrichment), providing an overview of enriched GO terms.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-1" tabindex="-1"></a>gene_set_enrichment <span class="ot">&lt;-</span> <span class="fu">gseGO</span>(<span class="at">geneList=</span>gene_list, </span>
+<span id="cb5-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-2" tabindex="-1"></a>             <span class="at">ont =</span><span class="st">&quot;ALL&quot;</span>, </span>
+<span id="cb5-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-3" tabindex="-1"></a>             <span class="at">keyType =</span> <span class="st">&quot;ENSEMBL&quot;</span>, </span>
+<span id="cb5-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-4" tabindex="-1"></a>             <span class="at">nPerm =</span> <span class="dv">10000</span>, </span>
+<span id="cb5-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-5" tabindex="-1"></a>             <span class="at">minGSSize =</span> <span class="dv">3</span>, </span>
+<span id="cb5-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-6" tabindex="-1"></a>             <span class="at">maxGSSize =</span> <span class="dv">800</span>, </span>
+<span id="cb5-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-7" tabindex="-1"></a>             <span class="at">pvalueCutoff =</span> <span class="fl">0.05</span>, </span>
+<span id="cb5-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-8" tabindex="-1"></a>             <span class="at">verbose =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb5-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-9" tabindex="-1"></a>             <span class="at">OrgDb =</span> organism, </span>
+<span id="cb5-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-10" tabindex="-1"></a>             <span class="at">pAdjustMethod =</span> <span class="st">&quot;none&quot;</span>)</span>
+<span id="cb5-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-11" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-12" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-13" tabindex="-1"></a><span class="co"># The results </span></span>
+<span id="cb5-14"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-14" tabindex="-1"></a><span class="fu">head</span>(gene_set_enrichment)</span></code></pre></div>
 <pre><code>##            ONTOLOGY         ID
 ## GO:0007186       BP GO:0007186
 ## GO:0004930       MF GO:0004930
@@ -528,7 +545,7 @@ pvalueCutoff: We use a p-value cutoff of 0.05 to identify significant results.</
 ## GO:0005925                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     FBgn0000464/FBgn0010395/FBgn0265991/FBgn0033987/FBgn0004397/FBgn0261574/FBgn0004456/FBgn0053993/FBgn0052406
 ## GO:0004948                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 FBgn0030437/FBgn0033744/FBgn0260753/FBgn0052843</code></pre>
 <p>We can visualise the enriched GO terms with the dotplot() function within Clusterprofiler. Facet grid is used to split the two plots into two seperate panels. This makes it easier to compare patterns.</p>
-<p><img src="Images/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="Images/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="kegg-gene-set-enrichment-analysis-what-pathways-are-enriched" class="section level3 hasAnchor" number="2.6.6">
 <h3><span class="header-section-number">2.6.6</span> KEGG Gene Set Enrichment Analysis: What pathways are enriched?<a href="pathway-analysis-using-clusterprofile-r-package.html#kegg-gene-set-enrichment-analysis-what-pathways-are-enriched" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -545,29 +562,29 @@ pvalueCutoff: We use a p-value cutoff of 0.05 to identify significant results.</
 - Label the vector with ENTREZ IDs.
 - Remove NA values.
 - Sort the vector in decreasing order.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-1" tabindex="-1"></a><span class="co">#Convert gene IDs for gseKEGG function</span></span>
-<span id="cb5-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-2" tabindex="-1"></a>ids<span class="ot">&lt;-</span><span class="fu">bitr</span>(<span class="fu">names</span>(original_gene_list), <span class="at">fromType =</span> <span class="st">&quot;ENSEMBL&quot;</span>, <span class="at">toType =</span> <span class="st">&quot;ENTREZID&quot;</span>, <span class="at">OrgDb=</span>organism)</span>
-<span id="cb5-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-3" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-4" tabindex="-1"></a><span class="co"># remove duplicate IDS (here I use &quot;ENSEMBL&quot;)</span></span>
-<span id="cb5-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-5" tabindex="-1"></a>dedup_ids <span class="ot">=</span> ids[<span class="sc">!</span><span class="fu">duplicated</span>(ids[<span class="fu">c</span>(<span class="st">&quot;ENSEMBL&quot;</span>)]),]</span>
-<span id="cb5-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-6" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-7" tabindex="-1"></a><span class="co"># Create a new dataframe df2 which has only the genes which were successfully mapped using the bitr function above</span></span>
-<span id="cb5-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-8" tabindex="-1"></a>df2 <span class="ot">=</span> df[df<span class="sc">$</span>X <span class="sc">%in%</span> dedup_ids<span class="sc">$</span>ENSEMBL,]</span>
-<span id="cb5-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-9" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-10" tabindex="-1"></a><span class="co"># Create a new column in df2 with the corresponding ENTREZ IDs</span></span>
-<span id="cb5-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-11" tabindex="-1"></a>df2<span class="sc">$</span>Y <span class="ot">=</span> dedup_ids<span class="sc">$</span>ENTREZID</span>
-<span id="cb5-12"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-12" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-13" tabindex="-1"></a><span class="co"># Create a vector of the gene unuiverse</span></span>
-<span id="cb5-14"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-14" tabindex="-1"></a>kegg_gene_list <span class="ot">&lt;-</span> df2<span class="sc">$</span>log2FoldChange</span>
-<span id="cb5-15"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-15" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-16" tabindex="-1"></a><span class="co"># Name vector with ENTREZ ids</span></span>
-<span id="cb5-17"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-17" tabindex="-1"></a><span class="fu">names</span>(kegg_gene_list) <span class="ot">&lt;-</span> df2<span class="sc">$</span>Y</span>
-<span id="cb5-18"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-18" tabindex="-1"></a></span>
-<span id="cb5-19"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-19" tabindex="-1"></a><span class="co"># remove any NA values </span></span>
-<span id="cb5-20"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-20" tabindex="-1"></a>kegg_gene_list<span class="ot">&lt;-</span><span class="fu">na.omit</span>(kegg_gene_list)</span>
-<span id="cb5-21"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-21" tabindex="-1"></a></span>
-<span id="cb5-22"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-22" tabindex="-1"></a><span class="co"># sort the list in decreasing order (required for clusterProfiler)</span></span>
-<span id="cb5-23"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-23" tabindex="-1"></a>kegg_gene_list <span class="ot">=</span> <span class="fu">sort</span>(kegg_gene_list, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-1" tabindex="-1"></a><span class="co">#Convert gene IDs for gseKEGG function</span></span>
+<span id="cb7-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-2" tabindex="-1"></a>ids<span class="ot">&lt;-</span><span class="fu">bitr</span>(<span class="fu">names</span>(original_gene_list), <span class="at">fromType =</span> <span class="st">&quot;ENSEMBL&quot;</span>, <span class="at">toType =</span> <span class="st">&quot;ENTREZID&quot;</span>, <span class="at">OrgDb=</span>organism)</span>
+<span id="cb7-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-4" tabindex="-1"></a><span class="co"># remove duplicate IDS (here I use &quot;ENSEMBL&quot;)</span></span>
+<span id="cb7-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-5" tabindex="-1"></a>dedup_ids <span class="ot">=</span> ids[<span class="sc">!</span><span class="fu">duplicated</span>(ids[<span class="fu">c</span>(<span class="st">&quot;ENSEMBL&quot;</span>)]),]</span>
+<span id="cb7-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-7" tabindex="-1"></a><span class="co"># Create a new dataframe df2 which has only the genes which were successfully mapped using the bitr function above</span></span>
+<span id="cb7-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-8" tabindex="-1"></a>df2 <span class="ot">=</span> df[df<span class="sc">$</span>X <span class="sc">%in%</span> dedup_ids<span class="sc">$</span>ENSEMBL,]</span>
+<span id="cb7-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-9" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-10" tabindex="-1"></a><span class="co"># Create a new column in df2 with the corresponding ENTREZ IDs</span></span>
+<span id="cb7-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-11" tabindex="-1"></a>df2<span class="sc">$</span>Y <span class="ot">=</span> dedup_ids<span class="sc">$</span>ENTREZID</span>
+<span id="cb7-12"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-12" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-13" tabindex="-1"></a><span class="co"># Create a vector of the gene unuiverse</span></span>
+<span id="cb7-14"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-14" tabindex="-1"></a>kegg_gene_list <span class="ot">&lt;-</span> df2<span class="sc">$</span>log2FoldChange</span>
+<span id="cb7-15"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-15" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-16" tabindex="-1"></a><span class="co"># Name vector with ENTREZ ids</span></span>
+<span id="cb7-17"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-17" tabindex="-1"></a><span class="fu">names</span>(kegg_gene_list) <span class="ot">&lt;-</span> df2<span class="sc">$</span>Y</span>
+<span id="cb7-18"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-18" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-19" tabindex="-1"></a><span class="co"># remove any NA values </span></span>
+<span id="cb7-20"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-20" tabindex="-1"></a>kegg_gene_list<span class="ot">&lt;-</span><span class="fu">na.omit</span>(kegg_gene_list)</span>
+<span id="cb7-21"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-21" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-22" tabindex="-1"></a><span class="co"># sort the list in decreasing order (required for clusterProfiler)</span></span>
+<span id="cb7-23"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb7-23" tabindex="-1"></a>kegg_gene_list <span class="ot">=</span> <span class="fu">sort</span>(kegg_gene_list, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Values: <code>kegg_gene_list</code> contains the log2 fold change values from the gene expression analysis. These values indicate how much the expression of each gene has changed.</p>
 <p>Names: The <code>kegg_gene_list</code> vector is labeled with the corresponding ENTREZ IDs of the genes. This means that each value in the vector is linked to a specific gene, identified by its ENTREZ ID.</p>
 </div>
@@ -583,18 +600,18 @@ pvalueCutoff: We use a p-value cutoff of 0.05 to identify significant results.</
 <li><p>pAdjustMethod: This determines the method used for adjusting p-values. Options include “holm”, “hochberg”, “hommel”, “bonferroni”, “BH”, “BY”, “fdr”, and “none”.</p></li>
 <li><p>keyType: This parameter specifies the type of gene identifiers used in the analysis. Options include ‘kegg’, ‘ncbi-geneid’, ‘ncib-proteinid’, or ‘uniprot’.</p></li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb6-1" tabindex="-1"></a>kegg_organism <span class="ot">=</span> <span class="st">&quot;dme&quot;</span></span>
-<span id="cb6-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb6-2" tabindex="-1"></a>kk2 <span class="ot">&lt;-</span> <span class="fu">gseKEGG</span>(<span class="at">geneList     =</span> kegg_gene_list,</span>
-<span id="cb6-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb6-3" tabindex="-1"></a>               <span class="at">organism     =</span> kegg_organism,</span>
-<span id="cb6-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb6-4" tabindex="-1"></a>               <span class="at">nPerm        =</span> <span class="dv">10000</span>,</span>
-<span id="cb6-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb6-5" tabindex="-1"></a>               <span class="at">minGSSize    =</span> <span class="dv">3</span>,</span>
-<span id="cb6-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb6-6" tabindex="-1"></a>               <span class="at">maxGSSize    =</span> <span class="dv">800</span>,</span>
-<span id="cb6-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb6-7" tabindex="-1"></a>               <span class="at">pvalueCutoff =</span> <span class="fl">0.05</span>,</span>
-<span id="cb6-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb6-8" tabindex="-1"></a>               <span class="at">pAdjustMethod =</span> <span class="st">&quot;none&quot;</span>,</span>
-<span id="cb6-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb6-9" tabindex="-1"></a>               <span class="at">keyType       =</span> <span class="st">&quot;ncbi-geneid&quot;</span>)</span>
-<span id="cb6-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb6-10" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb6-11" tabindex="-1"></a><span class="co"># Displays the top 10 results from the gseKEGG object, showing the most significantly enriched KEGG pathways</span></span>
-<span id="cb6-12"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb6-12" tabindex="-1"></a><span class="fu">head</span>(kk2, <span class="dv">10</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-1" tabindex="-1"></a>kegg_organism <span class="ot">=</span> <span class="st">&quot;dme&quot;</span></span>
+<span id="cb8-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-2" tabindex="-1"></a>kk2 <span class="ot">&lt;-</span> <span class="fu">gseKEGG</span>(<span class="at">geneList     =</span> kegg_gene_list,</span>
+<span id="cb8-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-3" tabindex="-1"></a>               <span class="at">organism     =</span> kegg_organism,</span>
+<span id="cb8-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-4" tabindex="-1"></a>               <span class="at">nPerm        =</span> <span class="dv">10000</span>,</span>
+<span id="cb8-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-5" tabindex="-1"></a>               <span class="at">minGSSize    =</span> <span class="dv">3</span>,</span>
+<span id="cb8-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-6" tabindex="-1"></a>               <span class="at">maxGSSize    =</span> <span class="dv">800</span>,</span>
+<span id="cb8-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-7" tabindex="-1"></a>               <span class="at">pvalueCutoff =</span> <span class="fl">0.05</span>,</span>
+<span id="cb8-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-8" tabindex="-1"></a>               <span class="at">pAdjustMethod =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb8-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-9" tabindex="-1"></a>               <span class="at">keyType       =</span> <span class="st">&quot;ncbi-geneid&quot;</span>)</span>
+<span id="cb8-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-11" tabindex="-1"></a><span class="co"># Displays the top 10 results from the gseKEGG object, showing the most significantly enriched KEGG pathways</span></span>
+<span id="cb8-12"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-12" tabindex="-1"></a><span class="fu">head</span>(kk2, <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>##                ID
 ## dme04080 dme04080
 ## dme00053 dme00053
@@ -657,7 +674,7 @@ pvalueCutoff: We use a p-value cutoff of 0.05 to identify significant results.</
 </div>
 <div id="dotplot" class="section level3 hasAnchor" number="2.6.10">
 <h3><span class="header-section-number">2.6.10</span> Dotplot<a href="pathway-analysis-using-clusterprofile-r-package.html#dotplot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb8-1" tabindex="-1"></a><span class="fu">dotplot</span>(kk2, <span class="at">showCategory =</span> <span class="dv">2</span>, <span class="at">title =</span> <span class="st">&quot;Enriched Pathways in the Drosophila melanogaster&quot;</span> , <span class="at">split=</span><span class="st">&quot;.sign&quot;</span>) <span class="sc">+</span> <span class="fu">facet_grid</span>(.<span class="sc">~</span>.sign)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb10-1" tabindex="-1"></a><span class="fu">dotplot</span>(kk2, <span class="at">showCategory =</span> <span class="dv">2</span>, <span class="at">title =</span> <span class="st">&quot;Enriched Pathways in the Drosophila melanogaster&quot;</span> , <span class="at">split=</span><span class="st">&quot;.sign&quot;</span>) <span class="sc">+</span> <span class="fu">facet_grid</span>(.<span class="sc">~</span>.sign)</span></code></pre></div>
 <p><img src="Images/plotje-1.png" width="672" /></p>
 </div>
 <div id="pathview" class="section level3 hasAnchor" number="2.6.11">
@@ -668,14 +685,14 @@ pvalueCutoff: We use a p-value cutoff of 0.05 to identify significant results.</
 <li><p>pathway.id: The input of the pathway ID of interest. Information on enriched pathways, including their IDs, can be found in the output table of the gseKEGG function.</p></li>
 <li><p>species: This parameter should be the same as the organism specified in the gseKEGG function, which we defined earlier as kegg_organism. It denotes the KEGG organism code for the species under investigation.</p></li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb9-1" tabindex="-1"></a><span class="fu">library</span>(pathview)</span>
-<span id="cb9-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb9-2" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb9-3" tabindex="-1"></a><span class="co"># Produce the native KEGG plot</span></span>
-<span id="cb9-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb9-4" tabindex="-1"></a>dme <span class="ot">&lt;-</span> <span class="fu">pathview</span>(<span class="at">gene.data=</span></span>
-<span id="cb9-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb9-5" tabindex="-1"></a>                  kegg_gene_list, </span>
-<span id="cb9-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb9-6" tabindex="-1"></a>                <span class="at">pathway.id=</span><span class="st">&quot;dme04130&quot;</span>, </span>
-<span id="cb9-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb9-7" tabindex="-1"></a>                <span class="at">species =</span> kegg_organism)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-6"></span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb11-1" tabindex="-1"></a><span class="fu">library</span>(pathview)</span>
+<span id="cb11-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb11-3" tabindex="-1"></a><span class="co"># Produce the native KEGG plot</span></span>
+<span id="cb11-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb11-4" tabindex="-1"></a>dme <span class="ot">&lt;-</span> <span class="fu">pathview</span>(<span class="at">gene.data=</span></span>
+<span id="cb11-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb11-5" tabindex="-1"></a>                  kegg_gene_list, </span>
+<span id="cb11-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb11-6" tabindex="-1"></a>                <span class="at">pathway.id=</span><span class="st">&quot;dme04130&quot;</span>, </span>
+<span id="cb11-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb11-7" tabindex="-1"></a>                <span class="at">species =</span> kegg_organism)</span></code></pre></div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-7"></span>
 <img src="Images/dme04130.pathview.png" alt="Pathway snare interactions in vescular transport in Drosophila melanogaster" width="70%" />
 <p class="caption">
 Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melanogaster
@@ -687,6 +704,32 @@ Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melan
 <div id="pathway-enrichment-analysis-for-the-airway-dataset-through-ora" class="section level2 hasAnchor" number="2.7">
 <h2><span class="header-section-number">2.7</span> Pathway enrichment analysis for the airway dataset through ORA<a href="pathway-analysis-using-clusterprofile-r-package.html#pathway-enrichment-analysis-for-the-airway-dataset-through-ora" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Next, I will try to do the pathway analysis on the airway data with the over-representation analysis. I’m executing the same steps I did with the Drosophila melanogaster annotation data. First I need the results of the differential expression (DE). There are different ways to get a DESeqDataSet. Since I am using a SummarizedExperiment, the airway dataset, it can be converted to a DESeq2. I followed the steps as described <a href="https://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#se">here</a>.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-1" tabindex="-1"></a><span class="co">#Load the libraries </span></span>
+<span id="cb12-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-2" tabindex="-1"></a><span class="fu">library</span>(clusterProfiler)  </span>
+<span id="cb12-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-3" tabindex="-1"></a><span class="fu">library</span>(org.Hs.eg.db)</span>
+<span id="cb12-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-4" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb12-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-5" tabindex="-1"></a><span class="fu">library</span>(DOSE)</span>
+<span id="cb12-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-6" tabindex="-1"></a><span class="fu">library</span>(enrichplot)</span>
+<span id="cb12-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-7" tabindex="-1"></a><span class="fu">library</span>(airway)</span>
+<span id="cb12-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-8" tabindex="-1"></a><span class="fu">library</span>(DESeq2)</span>
+<span id="cb12-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-9" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb12-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-10" tabindex="-1"></a><span class="fu">library</span>(ggplotify)</span>
+<span id="cb12-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-11" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-12" tabindex="-1"></a><span class="co"># Loading the built in airway data </span></span>
+<span id="cb12-13"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-13" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;airway&quot;</span>)</span>
+<span id="cb12-14"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-14" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-15" tabindex="-1"></a><span class="co"># Creating Deseq2 object </span></span>
+<span id="cb12-16"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-16" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeqDataSet</span>(airway, <span class="at">design =</span> <span class="sc">~</span> cell <span class="sc">+</span> dex)</span>
+<span id="cb12-17"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-17" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-18" tabindex="-1"></a><span class="co"># Deseq2 ananlysis and obtaining the results </span></span>
+<span id="cb12-19"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-19" tabindex="-1"></a>dds <span class="ot">&lt;-</span> <span class="fu">DESeq</span>(dds)</span>
+<span id="cb12-20"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-20" tabindex="-1"></a>results_dds <span class="ot">&lt;-</span> <span class="fu">results</span>(dds) <span class="sc">%&gt;%</span> <span class="fu">as.data.frame</span>()</span>
+<span id="cb12-21"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-21" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-22" tabindex="-1"></a><span class="co"># Naming the Ensemble column by making new column based on the ensemble column that was already present</span></span>
+<span id="cb12-23"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-23" tabindex="-1"></a>results_dds<span class="sc">$</span>Ensemble <span class="ot">&lt;-</span> <span class="fu">rownames</span>(results_dds)</span>
+<span id="cb12-24"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-24" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-25" tabindex="-1"></a><span class="co"># Checking the first few lines </span></span>
+<span id="cb12-26"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-26" tabindex="-1"></a><span class="fu">head</span>(results_dds)</span></code></pre></div>
 <pre><code>##                    baseMean log2FoldChange     lfcSE       stat       pvalue
 ## ENSG00000000003 708.6021697     0.38125398 0.1006544  3.7877523 0.0001520163
 ## ENSG00000000005   0.0000000             NA        NA         NA           NA
@@ -702,15 +745,40 @@ Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melan
 ## ENSG00000000460 0.895004783 ENSG00000000460
 ## ENSG00000000938          NA ENSG00000000938</code></pre>
 <p>After obtaining the Deseq2 object, we will now create a gene list of up- and downregulated genes. For this, I first need to select</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb14-1" tabindex="-1"></a><span class="co"># Selecting only significant genes, so padjusted value needs to be &lt;0.05</span></span>
+<span id="cb14-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb14-2" tabindex="-1"></a>significant_DE_genes <span class="ot">&lt;-</span> <span class="fu">filter</span>(results_dds, padj <span class="sc">&lt;</span> <span class="fl">0.05</span>)</span>
+<span id="cb14-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb14-3" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb14-4" tabindex="-1"></a><span class="co"># Selecting the genes that are downregulated (so &lt;-1), selecting genes that are downregulated AND that have a significant expression </span></span>
+<span id="cb14-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb14-5" tabindex="-1"></a>sig_down_genes<span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(results_dds, padj <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> log2FoldChange <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">1</span>)</span>
+<span id="cb14-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb14-6" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb14-7" tabindex="-1"></a><span class="co"># Selecting genes that are strongly upregulated AND significant expression </span></span>
+<span id="cb14-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb14-8" tabindex="-1"></a>sig_up_genes<span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(results_dds, padj <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> log2FoldChange <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb14-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb14-9" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb14-10" tabindex="-1"></a><span class="co"># Rank results for GSEA. This sorts the genelist based on logFoldChange, essential for GSEA.</span></span>
+<span id="cb14-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb14-11" tabindex="-1"></a>GSEA_data<span class="ot">&lt;-</span> results_dds <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(padj)) <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(<span class="fu">desc</span>(log2FoldChange)) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-12"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb14-12" tabindex="-1"></a>  <span class="fu">pull</span>(log2FoldChange, Ensemble) <span class="co"># output= a vector with genes and their log fold changes</span></span></code></pre></div>
 <div id="go-term-enrichment-ontology-analysis-1" class="section level3 hasAnchor" number="2.7.1">
 <h3><span class="header-section-number">2.7.1</span> GO Term enrichment ontology analysis<a href="pathway-analysis-using-clusterprofile-r-package.html#go-term-enrichment-ontology-analysis-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>ClusterProfiler offers support for gene ID conversion using the functions bitr() and bitr_kegg(). bitr() uses the OrgDb packages, of which there are 19 databases like the Drosphilia earlier. Since Clusterprofiler also supports ENSEMBL, I will leave it like this and use this as input for enrichGO() for the GO term ontology analysis.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb15-1" tabindex="-1"></a><span class="co"># Obtain keytype info</span></span>
+<span id="cb15-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb15-2" tabindex="-1"></a><span class="fu">keytypes</span>(org.Hs.eg.db)</span></code></pre></div>
 <pre><code>##  [1] &quot;ACCNUM&quot;       &quot;ALIAS&quot;        &quot;ENSEMBL&quot;      &quot;ENSEMBLPROT&quot;  &quot;ENSEMBLTRANS&quot;
 ##  [6] &quot;ENTREZID&quot;     &quot;ENZYME&quot;       &quot;EVIDENCE&quot;     &quot;EVIDENCEALL&quot;  &quot;GENENAME&quot;
 ## [11] &quot;GENETYPE&quot;     &quot;GO&quot;           &quot;GOALL&quot;        &quot;IPI&quot;          &quot;MAP&quot;
 ## [16] &quot;OMIM&quot;         &quot;ONTOLOGY&quot;     &quot;ONTOLOGYALL&quot;  &quot;PATH&quot;         &quot;PFAM&quot;
 ## [21] &quot;PMID&quot;         &quot;PROSITE&quot;      &quot;REFSEQ&quot;       &quot;SYMBOL&quot;       &quot;UCSCKG&quot;
 ## [26] &quot;UNIPROT&quot;</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb17-1" tabindex="-1"></a><span class="co"># GO enrichment on the up-regulated genes</span></span>
+<span id="cb17-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb17-2" tabindex="-1"></a>GO_enrich_up <span class="ot">&lt;-</span> <span class="fu">enrichGO</span>(<span class="at">gene =</span> sig_up_genes<span class="sc">$</span>Ensemble,</span>
+<span id="cb17-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb17-3" tabindex="-1"></a>                <span class="at">OrgDb =</span> org.Hs.eg.db,</span>
+<span id="cb17-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb17-4" tabindex="-1"></a>                <span class="at">keyType =</span> <span class="st">&quot;ENSEMBL&quot;</span>,</span>
+<span id="cb17-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb17-5" tabindex="-1"></a>                <span class="at">ont =</span> <span class="st">&quot;BP&quot;</span>,  <span class="co"># Biological Process ontology</span></span>
+<span id="cb17-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb17-6" tabindex="-1"></a>                <span class="at">minGSSize =</span> <span class="dv">5</span>,  </span>
+<span id="cb17-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb17-7" tabindex="-1"></a>                <span class="at">maxGSSize =</span> <span class="dv">1000</span>) </span>
+<span id="cb17-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb17-8" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb17-9" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb17-10" tabindex="-1"></a>simple_GO_enrich_up <span class="ot">&lt;-</span>clusterProfiler<span class="sc">::</span><span class="fu">simplify</span>(GO_enrich_up)</span>
+<span id="cb17-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb17-11" tabindex="-1"></a>simple_GO_enrich_up</span></code></pre></div>
 <pre><code>## #
 ## # over-representation test
 ## #
@@ -738,16 +806,55 @@ Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melan
 <div id="visualize-enriched-go-terms" class="section level3 hasAnchor" number="2.7.2">
 <h3><span class="header-section-number">2.7.2</span> Visualize enriched GO-terms<a href="pathway-analysis-using-clusterprofile-r-package.html#visualize-enriched-go-terms" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p><strong>Dotplot</strong></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb19-1" tabindex="-1"></a><span class="co"># dotplot for the upregulated genes </span></span>
+<span id="cb19-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb19-2" tabindex="-1"></a><span class="fu">dotplot</span>(simple_GO_enrich_up,<span class="at">showCategory=</span><span class="dv">20</span>,<span class="at">font.size=</span><span class="dv">10</span>,<span class="at">label_format=</span><span class="dv">70</span>)<span class="sc">+</span></span>
+<span id="cb19-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb19-3" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(<span class="at">range=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">7</span>))<span class="sc">+</span></span>
+<span id="cb19-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb19-4" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb19-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb19-5" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;GO Enrichment of up-regulated genes&quot;</span>)</span></code></pre></div>
 <p><img src="Images/kanarie-1.png" width="672" />
 <strong>Barplot</strong></p>
 <p>The bar plot below displays the enriched Gene Ontology (GO) terms for the airway data. GO terms represent biological processes, molecular functions, or cellular components that genes are involved in. By setting the <code>showCategory</code> parameter, you can specify the number of top terms to display. In this case, I set <code>showCategory=10</code>, so the plot shows the 10 most significant GO terms and the number of genes from the airway dataset associated with each term (Count).</p>
-<p><img src="Images/unnamed-chunk-8-1.png" width="672" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb20-1" tabindex="-1"></a><span class="co"># Barplot for GO-terms</span></span>
+<span id="cb20-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb20-2" tabindex="-1"></a><span class="fu">barplot</span>(simple_GO_enrich_up, <span class="at">showCategory =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p><img src="Images/unnamed-chunk-9-1.png" width="672" /></p>
 <p><strong>Cnetplot</strong></p>
 <p>The <code>cnetplot()</code> function helps visualize which genes are involved in significant enriched terms, unlike <code>barplot()</code> and <code>dotplot()</code>, which only show the most significant terms. <code>cnetplot()</code> shows the complex associations between genes and biological concepts (like GO terms or KEGG pathways) in a network, highlighting how genes may belong to multiple categories.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-1" tabindex="-1"></a><span class="co"># Color the genes by log2 fold changes</span></span>
+<span id="cb21-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-2" tabindex="-1"></a>foldchanges <span class="ot">&lt;-</span> sig_up_genes<span class="sc">$</span>log2FoldChange</span>
+<span id="cb21-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-3" tabindex="-1"></a><span class="fu">names</span>(foldchanges) <span class="ot">&lt;-</span> sig_up_genes<span class="sc">$</span>Ensemble</span>
+<span id="cb21-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-4" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-5" tabindex="-1"></a><span class="co"># The cnetplot gives the top5 terms by default. If you want to see which genes are involved in GO-terms 1,2 and 10, you can do this by making a subset</span></span>
+<span id="cb21-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-6" tabindex="-1"></a>simple_GO_cnet <span class="ot">&lt;-</span> simple_GO_enrich_up</span>
+<span id="cb21-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-7" tabindex="-1"></a>simple_GO_cnet<span class="sc">@</span>result<span class="ot">&lt;-</span>simple_GO_enrich_up[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">10</span>),]</span>
+<span id="cb21-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-8" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-9" tabindex="-1"></a><span class="fu">cnetplot</span>(simple_GO_cnet, </span>
+<span id="cb21-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-10" tabindex="-1"></a>         <span class="at">foldChange=</span>foldchanges, </span>
+<span id="cb21-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-11" tabindex="-1"></a>         <span class="at">shadowtext=</span><span class="st">&#39;gene&#39;</span>,</span>
+<span id="cb21-12"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-12" tabindex="-1"></a>         <span class="at">cex_label_gene=</span><span class="fl">0.25</span>,</span>
+<span id="cb21-13"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-13" tabindex="-1"></a>         <span class="at">cex_label_category=</span><span class="fl">0.5</span>,</span>
+<span id="cb21-14"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-14" tabindex="-1"></a>         <span class="at">color_category=</span><span class="st">&quot;#60a0b03d&quot;</span>)</span></code></pre></div>
 <p><img src="Images/taylor-1.png" width="672" /></p>
 </div>
 <div id="kegg-pathway-enrichment-analyse" class="section level3 hasAnchor" number="2.7.3">
 <h3><span class="header-section-number">2.7.3</span> KEGG pathway enrichment analyse<a href="pathway-analysis-using-clusterprofile-r-package.html#kegg-pathway-enrichment-analyse" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-1" tabindex="-1"></a><span class="co"># Convert Ensembl IDs to Entrez IDs</span></span>
+<span id="cb22-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-2" tabindex="-1"></a>idds <span class="ot">&lt;-</span> <span class="fu">bitr</span>(sig_up_genes<span class="sc">$</span>Ensemble, <span class="at">fromType =</span> <span class="st">&quot;ENSEMBL&quot;</span>, <span class="at">toType =</span> <span class="st">&quot;ENTREZID&quot;</span>, <span class="at">OrgDb =</span> org.Hs.eg.db)</span>
+<span id="cb22-3"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-3" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-4" tabindex="-1"></a><span class="co"># Select only the Entrez IDs column after mapping</span></span>
+<span id="cb22-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-5" tabindex="-1"></a>entrez_ids <span class="ot">&lt;-</span> idds<span class="sc">$</span>ENTREZID</span>
+<span id="cb22-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-6" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-7" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-8" tabindex="-1"></a><span class="co"># Convert Ensemble IDs to Entrez IDs</span></span>
+<span id="cb22-9"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-9" tabindex="-1"></a>results_dds_entrez <span class="ot">&lt;-</span> <span class="fu">bitr</span>(<span class="fu">rownames</span>(results_dds), <span class="at">fromType =</span> <span class="st">&quot;ENSEMBL&quot;</span>, <span class="at">toType =</span> <span class="st">&quot;ENTREZID&quot;</span>, <span class="at">OrgDb =</span> org.Hs.eg.db)</span>
+<span id="cb22-10"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-10" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-11" tabindex="-1"></a><span class="co"># Perform KEGG pathway enrichment analysis</span></span>
+<span id="cb22-12"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-12" tabindex="-1"></a>kegg_enrichment <span class="ot">&lt;-</span> <span class="fu">enrichKEGG</span>(<span class="at">gene =</span> idds<span class="sc">$</span>ENTREZID,</span>
+<span id="cb22-13"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-13" tabindex="-1"></a>                              <span class="at">organism =</span> <span class="st">&#39;hsa&#39;</span>,</span>
+<span id="cb22-14"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-14" tabindex="-1"></a>                              <span class="at">universe =</span> results_dds_entrez<span class="sc">$</span>ENTREZID,</span>
+<span id="cb22-15"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-15" tabindex="-1"></a>                              <span class="at">pvalueCutoff =</span> <span class="fl">0.05</span>, </span>
+<span id="cb22-16"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-16" tabindex="-1"></a>                               <span class="at">minGSSize =</span> <span class="dv">1</span>, </span>
+<span id="cb22-17"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-17" tabindex="-1"></a>                              <span class="at">maxGSSize =</span> <span class="dv">200000</span>)</span>
+<span id="cb22-18"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb22-18" tabindex="-1"></a><span class="fu">head</span>(kegg_enrichment)</span></code></pre></div>
 <pre><code>##                                      category
 ## hsa04750                   Organismal Systems
 ## hsa04060 Environmental Information Processing
@@ -797,10 +904,14 @@ Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melan
 <p>You can clearly see in the dotplot that “Pathways in Cancer” have the highest Gene ratio and padjust value. But what does this mean, exactly?</p>
 <p>The padjust value in a KEGG pathway analysis represents the adjusted p-value, telling whether the observed enrichment of a specific KEGG pathway is statistically significant after correcting for multiple testing. A low p-adjust (&lt; 0.05) value means that the enrichment of the KEGG pathway <em>is</em> statistically significant. So there is high confidence that the association found between the airway dataset and the KEGG pathway is not due to chance.</p>
 <p>Whereas a high padjust value (≥ 0.05) indicates that the enrichment of the KEGG pathway is not statistically significant. In this case, the association between the airway dataset and the KEGG pathway is <em>not</em> considered reliable and could be due to chance.</p>
-<p>The “gene ratio” in a KEGG pathway enrichment analysis indicates how many genes from the dataset are involved in a specific KEGG pathway relative to the total number of genes typically associated with that pathway in the reference database (the human KEGG database). In the table kegg_enrichment, you can see the Gene ratio for the pathway “Pathways in Cancer” is the highest.
-<img src="Images/unnamed-chunk-10-1.png" width="672" /></p>
+<p>The “gene ratio” in a KEGG pathway enrichment analysis indicates how many genes from the dataset are involved in a specific KEGG pathway relative to the total number of genes typically associated with that pathway in the reference database (the human KEGG database). In the table kegg_enrichment, you can see the Gene ratio for the pathway “Pathways in Cancer” is the highest.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb24-1" tabindex="-1"></a><span class="co"># dotplot for enriched pathways in airway dataset </span></span>
+<span id="cb24-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb24-2" tabindex="-1"></a><span class="fu">dotplot</span>(kegg_enrichment, <span class="at">showCategory =</span> <span class="dv">10</span>, <span class="at">title=</span> <span class="st">&quot;Enriched Pathways in the Airway Dataset&quot;</span>)</span></code></pre></div>
+<p><img src="Images/unnamed-chunk-11-1.png" width="672" /></p>
 <p><strong>Barplot</strong></p>
-<p><img src="Images/unnamed-chunk-11-1.png" width="672" />
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb25-1" tabindex="-1"></a><span class="co"># Voorbeeld barplot voor pathways </span></span>
+<span id="cb25-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb25-2" tabindex="-1"></a><span class="fu">barplot</span>(kegg_enrichment, <span class="at">showCategory =</span> <span class="dv">10</span>)</span></code></pre></div>
+<p><img src="Images/unnamed-chunk-12-1.png" width="672" />
 In the barplot above you can see the enriched pathways that are present in the DE genes in the airway study. How are these pathways related to the airway data?</p>
 <p>Inflammatory mediator regulation of TRP channels: This indicates specific ways in which substances causing inflammation can affect certain ‘TRP’ channels in the airways. This can help understand how medications like glucocorticoids reduce inflammation in the airways.</p>
 <p>Cytokine-cytokine receptor interaction: This refers to how certain substances (cytokines) and their receptors communicate with each other in the airways. This is important because cytokines play a role in inflammatory responses, which glucocorticoids can affect.</p>
@@ -815,14 +926,14 @@ In the barplot above you can see the enriched pathways that are present in the D
 <p>Even though “Pathways in cancer” has the highest gene ratio (27/213 genes), it also has the highest padjust value, meaning there could be a chance it’s not significant. Besides, I chose pathways that are directly involved in inflammation, immune response and the airway function, because this helps understanding the disease mechanisms and possible ways to intervene when things go wrong with therapeutics.</p>
 <p>I got the pathway ID from the kegg_enrichment table. hsa means homo sapiens.</p>
 <p>First Inflammatory mediator regulation of TRP channels:</p>
-<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-13"></span>
-<img src="Images/hsa04750.png" alt="Pathway Inflammatory mediator regulation of TRP channels  " width="70%" />
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-14"></span>
+<img src="Images/hsa04750.png" alt="Pathway Inflammatory mediator regulation of TRP channels   " width="70%" />
 <p class="caption">
 Figure 2.3: Pathway Inflammatory mediator regulation of TRP channels
 </p>
 </div>
 <p>Now Cytokine-cytokine receptor interaction:</p>
-<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-15"></span>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-16"></span>
 <img src="Images/hsa04060.png" alt="Pathway Inflammatory mediator regulation of TRP channels   " width="70%" />
 <p class="caption">
 Figure 2.4: Pathway Inflammatory mediator regulation of TRP channels
