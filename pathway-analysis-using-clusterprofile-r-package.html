@@ -180,7 +180,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.6" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#ora-and-gsea-with-clusterprofiler-steps"><i class="fa fa-check"></i><b>2.6</b> ORA and GSEA with clusterProfiler steps</a>
 <ul>
-<li class="chapter" data-level="2.6.1" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#functional-pathway-enrichment-analysis-with-annotation-data"><i class="fa fa-check"></i><b>2.6.1</b> Functional pathway enrichment analysis with annotation data</a></li>
+<li class="chapter" data-level="2.6.1" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#gene-set-enrichment-analysis-with-annotation-data"><i class="fa fa-check"></i><b>2.6.1</b> Gene set enrichment analysis with annotation data</a></li>
 <li class="chapter" data-level="2.6.2" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#installation"><i class="fa fa-check"></i><b>2.6.2</b> Installation</a></li>
 <li class="chapter" data-level="2.6.3" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#gathering-data-and-annotations"><i class="fa fa-check"></i><b>2.6.3</b> Gathering data and annotations</a></li>
 <li class="chapter" data-level="2.6.4" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#prepare-input-for-the-go-term-ontology-enrichment-analysis-gene-list"><i class="fa fa-check"></i><b>2.6.4</b> Prepare Input for the GO term ontology enrichment analysis: Gene list</a></li>
@@ -192,7 +192,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6.10" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#dotplot"><i class="fa fa-check"></i><b>2.6.10</b> Dotplot</a></li>
 <li class="chapter" data-level="2.6.11" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#pathview"><i class="fa fa-check"></i><b>2.6.11</b> Pathview</a></li>
 </ul></li>
-<li class="chapter" data-level="2.7" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#pathway-enrichment-analysis-for-the-airway-dataset-through-ora"><i class="fa fa-check"></i><b>2.7</b> Pathway enrichment analysis for the airway dataset through ORA</a>
+<li class="chapter" data-level="2.7" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#pathway-enrichment-analysis-for-the-airway-dataset-with-ora"><i class="fa fa-check"></i><b>2.7</b> Pathway enrichment analysis for the airway dataset with ORA</a>
 <ul>
 <li class="chapter" data-level="2.7.1" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#go-term-enrichment-ontology-analysis-1"><i class="fa fa-check"></i><b>2.7.1</b> GO Term enrichment ontology analysis</a></li>
 <li class="chapter" data-level="2.7.2" data-path="pathway-analysis-using-clusterprofile-r-package.html"><a href="pathway-analysis-using-clusterprofile-r-package.html#visualize-enriched-go-terms"><i class="fa fa-check"></i><b>2.7.2</b> Visualize enriched GO-terms</a></li>
@@ -436,8 +436,8 @@ Figure 2.1: An overview of the clusterprofiler package and the associated analys
 </ol>
 <p>Function from clusterprofiler: gseKEGG().</p>
 <hr />
-<div id="functional-pathway-enrichment-analysis-with-annotation-data" class="section level3 hasAnchor" number="2.6.1">
-<h3><span class="header-section-number">2.6.1</span> Functional pathway enrichment analysis with annotation data<a href="pathway-analysis-using-clusterprofile-r-package.html#functional-pathway-enrichment-analysis-with-annotation-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="gene-set-enrichment-analysis-with-annotation-data" class="section level3 hasAnchor" number="2.6.1">
+<h3><span class="header-section-number">2.6.1</span> Gene set enrichment analysis with annotation data<a href="pathway-analysis-using-clusterprofile-r-package.html#gene-set-enrichment-analysis-with-annotation-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 </div>
 <div id="installation" class="section level3 hasAnchor" number="2.6.2">
 <h3><span class="header-section-number">2.6.2</span> Installation<a href="pathway-analysis-using-clusterprofile-r-package.html#installation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -511,41 +511,41 @@ pvalueCutoff: We use a p-value cutoff of 0.05 to identify significant results.</
 <span id="cb5-14"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb5-14" tabindex="-1"></a><span class="fu">head</span>(gene_set_enrichment)</span></code></pre></div>
 <pre><code>##            ONTOLOGY         ID
 ## GO:0007186       BP GO:0007186
+## GO:0022626       CC GO:0022626
 ## GO:0004930       MF GO:0004930
+## GO:0016798       MF GO:0016798
 ## GO:0007188       BP GO:0007188
 ## GO:0030055       CC GO:0030055
-## GO:0005925       CC GO:0005925
-## GO:0004948       MF GO:0004948
 ##                                                                          Description
 ## GO:0007186                              G protein-coupled receptor signaling pathway
+## GO:0022626                                                        cytosolic ribosome
 ## GO:0004930                                       G protein-coupled receptor activity
+## GO:0016798                              hydrolase activity, acting on glycosyl bonds
 ## GO:0007188 adenylate cyclase-modulating G protein-coupled receptor signaling pathway
 ## GO:0030055                                                   cell-substrate junction
-## GO:0005925                                                            focal adhesion
-## GO:0004948                                              calcitonin receptor activity
-##            setSize enrichmentScore       NES       pvalue     p.adjust
-## GO:0007186     227      -0.5558057 -2.112194 0.0001454334 0.0001454334
-## GO:0004930     113      -0.5809564 -2.016126 0.0001563477 0.0001563477
-## GO:0007188      63      -0.6926563 -2.202946 0.0001635858 0.0001635858
-## GO:0030055      38      -0.7017319 -2.030856 0.0001702128 0.0001702128
-## GO:0005925      25      -0.7818698 -2.082121 0.0001761494 0.0001761494
-## GO:0004948       5      -0.9714870 -1.780968 0.0001923817 0.0001923817
-##                qvalue rank                   leading_edge
-## GO:0007186 0.09689952  885  tags=25%, list=6%, signal=24%
-## GO:0004930 0.09689952 1016  tags=32%, list=7%, signal=30%
-## GO:0007188 0.09689952 1344  tags=41%, list=9%, signal=38%
-## GO:0030055 0.09689952 1342  tags=32%, list=9%, signal=29%
-## GO:0005925 0.09689952 1157  tags=36%, list=8%, signal=33%
-## GO:0004948 0.09689952  438 tags=100%, list=3%, signal=97%
-##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            core_enrichment
-## GO:0007186 FBgn0050361/FBgn0038880/FBgn0040506/FBgn0001104/FBgn0050340/FBgn0260446/FBgn0022710/FBgn0000253/FBgn0053639/FBgn0031275/FBgn0004842/FBgn0004573/FBgn0004622/FBgn0052547/FBgn0033932/FBgn0027794/FBgn0038140/FBgn0050106/FBgn0024944/FBgn0052683/FBgn0266137/FBgn0263131/FBgn0028956/FBgn0010223/FBgn0038653/FBgn0011582/FBgn0038542/FBgn0086704/FBgn0085380/FBgn0004784/FBgn0265959/FBgn0030437/FBgn0267252/FBgn0261953/FBgn0013767/FBgn0039396/FBgn0038980/FBgn0032048/FBgn0037976/FBgn0031302/FBgn0264002/FBgn0031770/FBgn0037408/FBgn0035092/FBgn0036260/FBgn0033744/FBgn0035385/FBgn0266429/FBgn0085413/FBgn0260753/FBgn0019985/FBgn0045038/FBgn0261549/FBgn0034636/FBgn0039419/FBgn0052843
-## GO:0004930                                                                                                                                                                                                                                                 FBgn0263116/FBgn0035331/FBgn0050361/FBgn0038880/FBgn0050340/FBgn0260446/FBgn0053639/FBgn0031275/FBgn0004842/FBgn0004573/FBgn0004622/FBgn0052547/FBgn0033932/FBgn0038140/FBgn0050106/FBgn0024944/FBgn0266137/FBgn0028956/FBgn0038653/FBgn0011582/FBgn0038542/FBgn0025680/FBgn0030437/FBgn0039396/FBgn0038980/FBgn0264002/FBgn0031770/FBgn0037408/FBgn0036260/FBgn0033744/FBgn0035385/FBgn0266429/FBgn0260753/FBgn0019985/FBgn0039419/FBgn0052843
-## GO:0007188                                                                                                                                                                                                                                                                                                                                                                         FBgn0040507/FBgn0050054/FBgn0000037/FBgn0037546/FBgn0263116/FBgn0035331/FBgn0040506/FBgn0001104/FBgn0260446/FBgn0022710/FBgn0004573/FBgn0033932/FBgn0266137/FBgn0263131/FBgn0010223/FBgn0038653/FBgn0011582/FBgn0038542/FBgn0030437/FBgn0038980/FBgn0032048/FBgn0264002/FBgn0033744/FBgn0260753/FBgn0039419/FBgn0052843
-## GO:0030055                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 FBgn0034540/FBgn0032683/FBgn0000464/FBgn0010395/FBgn0031850/FBgn0265991/FBgn0033987/FBgn0004397/FBgn0261574/FBgn0004456/FBgn0053993/FBgn0052406
-## GO:0005925                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     FBgn0000464/FBgn0010395/FBgn0265991/FBgn0033987/FBgn0004397/FBgn0261574/FBgn0004456/FBgn0053993/FBgn0052406
-## GO:0004948                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 FBgn0030437/FBgn0033744/FBgn0260753/FBgn0052843</code></pre>
+##            setSize enrichmentScore       NES       pvalue     p.adjust  qvalue
+## GO:0007186     227      -0.5558057 -2.119023 0.0001453700 0.0001453700 0.10526
+## GO:0022626     106      -0.5200908 -1.801378 0.0001567644 0.0001567644 0.10526
+## GO:0004930     113      -0.5809564 -2.026020 0.0001575796 0.0001575796 0.10526
+## GO:0016798      95      -0.5240824 -1.785014 0.0001591343 0.0001591343 0.10526
+## GO:0007188      63      -0.6926563 -2.220340 0.0001634521 0.0001634521 0.10526
+## GO:0030055      38      -0.7017319 -2.036787 0.0001718213 0.0001718213 0.10526
+##            rank                   leading_edge
+## GO:0007186  885  tags=25%, list=6%, signal=24%
+## GO:0022626 5512 tags=71%, list=36%, signal=45%
+## GO:0004930 1016  tags=32%, list=7%, signal=30%
+## GO:0016798 2794 tags=34%, list=18%, signal=28%
+## GO:0007188 1344  tags=41%, list=9%, signal=38%
+## GO:0030055 1342  tags=32%, list=9%, signal=29%
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                core_enrichment
+## GO:0007186                                                                                                                                                                                                                                     FBgn0050361/FBgn0038880/FBgn0040506/FBgn0001104/FBgn0050340/FBgn0260446/FBgn0022710/FBgn0000253/FBgn0053639/FBgn0031275/FBgn0004842/FBgn0004573/FBgn0004622/FBgn0052547/FBgn0033932/FBgn0027794/FBgn0038140/FBgn0050106/FBgn0024944/FBgn0052683/FBgn0266137/FBgn0263131/FBgn0028956/FBgn0010223/FBgn0038653/FBgn0011582/FBgn0038542/FBgn0086704/FBgn0085380/FBgn0004784/FBgn0265959/FBgn0030437/FBgn0267252/FBgn0261953/FBgn0013767/FBgn0039396/FBgn0038980/FBgn0032048/FBgn0037976/FBgn0031302/FBgn0264002/FBgn0031770/FBgn0037408/FBgn0035092/FBgn0036260/FBgn0033744/FBgn0035385/FBgn0266429/FBgn0085413/FBgn0260753/FBgn0019985/FBgn0045038/FBgn0261549/FBgn0034636/FBgn0039419/FBgn0052843
+## GO:0022626 FBgn0053368/FBgn0053403/FBgn0053411/FBgn0053412/FBgn0053420/FBgn0053421/FBgn0053425/FBgn0053426/FBgn0011284/FBgn0002626/FBgn0032987/FBgn0010265/FBgn0261592/FBgn0016726/FBgn0066084/FBgn0030616/FBgn0033555/FBgn0003274/FBgn0037351/FBgn0034968/FBgn0017545/FBgn0029897/FBgn0064225/FBgn0039757/FBgn0019936/FBgn0010198/FBgn0010078/FBgn0011272/FBgn0004403/FBgn0002593/FBgn0039713/FBgn0261599/FBgn0020618/FBgn0002590/FBgn0003942/FBgn0034837/FBgn0261602/FBgn0036825/FBgn0037135/FBgn0010411/FBgn0005593/FBgn0035753/FBgn0261596/FBgn0039406/FBgn0030483/FBgn0038834/FBgn0086710/FBgn0014026/FBgn0034743/FBgn0029148/FBgn0023170/FBgn0030136/FBgn0002579/FBgn0003517/FBgn0034138/FBgn0032518/FBgn0035422/FBgn0029785/FBgn0004404/FBgn0004867/FBgn0053452/FBgn0036213/FBgn0034822/FBgn0037899/FBgn0037686/FBgn0039857/FBgn0003279/FBgn0026372/FBgn0261608/FBgn0010408/FBgn0261597/FBgn0015521/FBgn0039359/FBgn0038277/FBgn0015288
+## GO:0004930                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     FBgn0263116/FBgn0035331/FBgn0050361/FBgn0038880/FBgn0050340/FBgn0260446/FBgn0053639/FBgn0031275/FBgn0004842/FBgn0004573/FBgn0004622/FBgn0052547/FBgn0033932/FBgn0038140/FBgn0050106/FBgn0024944/FBgn0266137/FBgn0028956/FBgn0038653/FBgn0011582/FBgn0038542/FBgn0025680/FBgn0030437/FBgn0039396/FBgn0038980/FBgn0264002/FBgn0031770/FBgn0037408/FBgn0036260/FBgn0033744/FBgn0035385/FBgn0266429/FBgn0260753/FBgn0019985/FBgn0039419/FBgn0052843
+## GO:0016798                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     FBgn0032067/FBgn0034538/FBgn0034165/FBgn0053080/FBgn0004428/FBgn0002570/FBgn0027588/FBgn0032066/FBgn0039634/FBgn0050360/FBgn0033294/FBgn0027611/FBgn0053054/FBgn0032381/FBgn0026869/FBgn0032907/FBgn0029913/FBgn0259170/FBgn0030510/FBgn0023511/FBgn0030839/FBgn0026616/FBgn0031265/FBgn0034117/FBgn0041630/FBgn0032382/FBgn0032069/FBgn0030511/FBgn0262579/FBgn0263132/FBgn0260746/FBgn0028499
+## GO:0007188                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             FBgn0040507/FBgn0050054/FBgn0000037/FBgn0037546/FBgn0263116/FBgn0035331/FBgn0040506/FBgn0001104/FBgn0260446/FBgn0022710/FBgn0004573/FBgn0033932/FBgn0266137/FBgn0263131/FBgn0010223/FBgn0038653/FBgn0011582/FBgn0038542/FBgn0030437/FBgn0038980/FBgn0032048/FBgn0264002/FBgn0033744/FBgn0260753/FBgn0039419/FBgn0052843
+## GO:0030055                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     FBgn0034540/FBgn0032683/FBgn0000464/FBgn0010395/FBgn0031850/FBgn0265991/FBgn0033987/FBgn0004397/FBgn0261574/FBgn0004456/FBgn0053993/FBgn0052406</code></pre>
 <p>We can visualise the enriched GO terms with the dotplot() function within Clusterprofiler. Facet grid is used to split the two plots into two seperate panels. This makes it easier to compare patterns.</p>
-<p><img src="Images/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="Images/nonono-1.png" width="672" /></p>
 </div>
 <div id="kegg-gene-set-enrichment-analysis-what-pathways-are-enriched" class="section level3 hasAnchor" number="2.6.6">
 <h3><span class="header-section-number">2.6.6</span> KEGG Gene Set Enrichment Analysis: What pathways are enriched?<a href="pathway-analysis-using-clusterprofile-r-package.html#kegg-gene-set-enrichment-analysis-what-pathways-are-enriched" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -617,56 +617,56 @@ pvalueCutoff: We use a p-value cutoff of 0.05 to identify significant results.</
 ## dme00053 dme00053
 ## dme00511 dme00511
 ## dme04310 dme04310
-## dme04130 dme04130
 ## dme00330 dme00330
+## dme04130 dme04130
 ## dme00380 dme00380
+## dme00650 dme00650
 ## dme00071 dme00071
 ## dme03410 dme03410
-## dme00830 dme00830
 ##                                                                              Description
 ## dme04080   Neuroactive ligand-receptor interaction - Drosophila melanogaster (fruit fly)
 ## dme00053         Ascorbate and aldarate metabolism - Drosophila melanogaster (fruit fly)
 ## dme00511                  Other glycan degradation - Drosophila melanogaster (fruit fly)
 ## dme04310                     Wnt signaling pathway - Drosophila melanogaster (fruit fly)
-## dme04130 SNARE interactions in vesicular transport - Drosophila melanogaster (fruit fly)
 ## dme00330           Arginine and proline metabolism - Drosophila melanogaster (fruit fly)
+## dme04130 SNARE interactions in vesicular transport - Drosophila melanogaster (fruit fly)
 ## dme00380                     Tryptophan metabolism - Drosophila melanogaster (fruit fly)
+## dme00650                      Butanoate metabolism - Drosophila melanogaster (fruit fly)
 ## dme00071                    Fatty acid degradation - Drosophila melanogaster (fruit fly)
 ## dme03410                      Base excision repair - Drosophila melanogaster (fruit fly)
-## dme00830                        Retinol metabolism - Drosophila melanogaster (fruit fly)
 ##          setSize enrichmentScore       NES       pvalue     p.adjust     qvalue
-## dme04080      60      -0.6214491 -1.948695 0.0001639076 0.0001639076 0.02156678
-## dme00053      32      -0.6646835 -1.844576 0.0015544041 0.0015544041 0.10226343
-## dme00511      21      -0.6797063 -1.730222 0.0066678365 0.0066678365 0.19075314
-## dme04310      92       0.4194541  1.537691 0.0088251517 0.0088251517 0.19075314
-## dme04130      20       0.6327935  1.681880 0.0102064486 0.0102064486 0.19075314
-## dme00330      47      -0.5419275 -1.619221 0.0104026846 0.0104026846 0.19075314
-## dme00380      18      -0.6744193 -1.660295 0.0145235565 0.0145235565 0.19075314
-## dme00071      32      -0.5858576 -1.625825 0.0148531952 0.0148531952 0.19075314
-## dme03410      26      -0.6112283 -1.625817 0.0154521510 0.0154521510 0.19075314
-## dme00830      31      -0.5867306 -1.617905 0.0157630348 0.0157630348 0.19075314
+## dme04080      60      -0.6214491 -1.951882 0.0001656178 0.0001656178 0.02179181
+## dme00053      32      -0.6646835 -1.848633 0.0017259234 0.0017259234 0.11354759
+## dme00511      21      -0.6797063 -1.737674 0.0066983959 0.0066983959 0.22961846
+## dme04310      92       0.4194541  1.536385 0.0072795902 0.0072795902 0.22961846
+## dme00330      47      -0.5419275 -1.625127 0.0090710566 0.0090710566 0.22961846
+## dme04130      20       0.6327935  1.690193 0.0107921929 0.0107921929 0.22961846
+## dme00380      18      -0.6744193 -1.662451 0.0140870185 0.0140870185 0.22961846
+## dme00650      15      -0.7008794 -1.656326 0.0148847341 0.0148847341 0.22961846
+## dme00071      32      -0.5858576 -1.629401 0.0157059027 0.0157059027 0.22961846
+## dme03410      26      -0.6112283 -1.640020 0.0175043328 0.0175043328 0.23032017
 ##          rank                   leading_edge
 ## dme04080 1364  tags=37%, list=9%, signal=33%
 ## dme00053   60  tags=16%, list=0%, signal=16%
 ## dme00511 1575 tags=57%, list=11%, signal=51%
 ## dme04310 2391 tags=27%, list=16%, signal=23%
-## dme04130 2941 tags=50%, list=20%, signal=40%
 ## dme00330 2290 tags=26%, list=16%, signal=22%
+## dme04130 2941 tags=50%, list=20%, signal=40%
 ## dme00380  290  tags=22%, list=2%, signal=22%
+## dme00650 2770 tags=53%, list=19%, signal=43%
 ## dme00071 2984 tags=44%, list=20%, signal=35%
 ## dme03410 1580 tags=35%, list=11%, signal=31%
-## dme00830 2024 tags=26%, list=14%, signal=22%
 ##                                                                                                                                                core_enrichment
 ## dme04080                 41017/39409/37892/40955/37191/33360/42530/34878/33248/43669/43551/36601/41639/37004/43484/41726/2768688/36368/44484/43838/38742/36475
 ## dme00053                                                                                                                         53584/53507/35138/34256/35139
 ## dme00511                                                                               34204/37211/34203/34437/37490/32726/41913/38528/34206/35989/41457/42178
 ## dme04310 39596/34011/45307/45343/32188/37713/31151/48311/42692/31310/34367/31597/40090/44317/34819/33204/43769/43319/31659/39884/34010/39751/32132/38890/31014
-## dme04130                                                                                          36080/40094/42215/36015/248102/38614/40373/38541/40724/39051
 ## dme00330                                                                             38986/326112/40026/46717/43620/34495/41167/40028/50001/43625/326188/34256
+## dme04130                                                                                          36080/40094/42215/36015/248102/38614/40373/38541/40724/39051
 ## dme00380                                                                                                                               31695/43689/35190/34256
+## dme00650                                                                                                       34276/38261/41480/42364/31695/30972/38484/35156
 ## dme00071                                                                 37446/34276/34315/34313/3771877/41311/37445/41480/40059/42364/31695/37217/35213/34256
-## dme03410                                                                                                 34423/31451/42758/43796/34792/35365/39746/40994/33500
-## dme00830                                                                                                     53513/3771877/41311/38598/53584/53507/35138/35139</code></pre>
+## dme03410                                                                                                 34423/31451/42758/43796/34792/35365/39746/40994/33500</code></pre>
 </div>
 <div id="visualising-the-most-enriched-pathways" class="section level3 hasAnchor" number="2.6.9">
 <h3><span class="header-section-number">2.6.9</span> Visualising the most enriched pathways<a href="pathway-analysis-using-clusterprofile-r-package.html#visualising-the-most-enriched-pathways" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -692,7 +692,7 @@ pvalueCutoff: We use a p-value cutoff of 0.05 to identify significant results.</
 <span id="cb11-5"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb11-5" tabindex="-1"></a>                  kegg_gene_list, </span>
 <span id="cb11-6"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb11-6" tabindex="-1"></a>                <span class="at">pathway.id=</span><span class="st">&quot;dme04130&quot;</span>, </span>
 <span id="cb11-7"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb11-7" tabindex="-1"></a>                <span class="at">species =</span> kegg_organism)</span></code></pre></div>
-<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-7"></span>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-6"></span>
 <img src="Images/dme04130.pathview.png" alt="Pathway snare interactions in vescular transport in Drosophila melanogaster" width="70%" />
 <p class="caption">
 Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melanogaster
@@ -701,8 +701,8 @@ Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melan
 <hr />
 </div>
 </div>
-<div id="pathway-enrichment-analysis-for-the-airway-dataset-through-ora" class="section level2 hasAnchor" number="2.7">
-<h2><span class="header-section-number">2.7</span> Pathway enrichment analysis for the airway dataset through ORA<a href="pathway-analysis-using-clusterprofile-r-package.html#pathway-enrichment-analysis-for-the-airway-dataset-through-ora" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="pathway-enrichment-analysis-for-the-airway-dataset-with-ora" class="section level2 hasAnchor" number="2.7">
+<h2><span class="header-section-number">2.7</span> Pathway enrichment analysis for the airway dataset with ORA<a href="pathway-analysis-using-clusterprofile-r-package.html#pathway-enrichment-analysis-for-the-airway-dataset-with-ora" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Next, I will try to do the pathway analysis on the airway data with the over-representation analysis. I’m executing the same steps I did with the Drosophila melanogaster annotation data. First I need the results of the differential expression (DE). There are different ways to get a DESeqDataSet. Since I am using a SummarizedExperiment, the airway dataset, it can be converted to a DESeq2. I followed the steps as described <a href="https://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#se">here</a>.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-1" tabindex="-1"></a><span class="co">#Load the libraries </span></span>
 <span id="cb12-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb12-2" tabindex="-1"></a><span class="fu">library</span>(clusterProfiler)  </span>
@@ -816,7 +816,7 @@ Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melan
 <p>The bar plot below displays the enriched Gene Ontology (GO) terms for the airway data. GO terms represent biological processes, molecular functions, or cellular components that genes are involved in. By setting the <code>showCategory</code> parameter, you can specify the number of top terms to display. In this case, I set <code>showCategory=10</code>, so the plot shows the 10 most significant GO terms and the number of genes from the airway dataset associated with each term (Count).</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb20-1" tabindex="-1"></a><span class="co"># Barplot for GO-terms</span></span>
 <span id="cb20-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb20-2" tabindex="-1"></a><span class="fu">barplot</span>(simple_GO_enrich_up, <span class="at">showCategory =</span> <span class="dv">10</span>)</span></code></pre></div>
-<p><img src="Images/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="Images/unnamed-chunk-8-1.png" width="672" /></p>
 <p><strong>Cnetplot</strong></p>
 <p>The <code>cnetplot()</code> function helps visualize which genes are involved in significant enriched terms, unlike <code>barplot()</code> and <code>dotplot()</code>, which only show the most significant terms. <code>cnetplot()</code> shows the complex associations between genes and biological concepts (like GO terms or KEGG pathways) in a network, highlighting how genes may belong to multiple categories.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb21-1" tabindex="-1"></a><span class="co"># Color the genes by log2 fold changes</span></span>
@@ -907,11 +907,11 @@ Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melan
 <p>The “gene ratio” in a KEGG pathway enrichment analysis indicates how many genes from the dataset are involved in a specific KEGG pathway relative to the total number of genes typically associated with that pathway in the reference database (the human KEGG database). In the table kegg_enrichment, you can see the Gene ratio for the pathway “Pathways in Cancer” is the highest.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb24-1" tabindex="-1"></a><span class="co"># dotplot for enriched pathways in airway dataset </span></span>
 <span id="cb24-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb24-2" tabindex="-1"></a><span class="fu">dotplot</span>(kegg_enrichment, <span class="at">showCategory =</span> <span class="dv">10</span>, <span class="at">title=</span> <span class="st">&quot;Enriched Pathways in the Airway Dataset&quot;</span>)</span></code></pre></div>
-<p><img src="Images/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="Images/unnamed-chunk-10-1.png" width="672" /></p>
 <p><strong>Barplot</strong></p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb25-1" tabindex="-1"></a><span class="co"># Voorbeeld barplot voor pathways </span></span>
 <span id="cb25-2"><a href="pathway-analysis-using-clusterprofile-r-package.html#cb25-2" tabindex="-1"></a><span class="fu">barplot</span>(kegg_enrichment, <span class="at">showCategory =</span> <span class="dv">10</span>)</span></code></pre></div>
-<p><img src="Images/unnamed-chunk-12-1.png" width="672" />
+<p><img src="Images/unnamed-chunk-11-1.png" width="672" />
 In the barplot above you can see the enriched pathways that are present in the DE genes in the airway study. How are these pathways related to the airway data?</p>
 <p>Inflammatory mediator regulation of TRP channels: This indicates specific ways in which substances causing inflammation can affect certain ‘TRP’ channels in the airways. This can help understand how medications like glucocorticoids reduce inflammation in the airways.</p>
 <p>Cytokine-cytokine receptor interaction: This refers to how certain substances (cytokines) and their receptors communicate with each other in the airways. This is important because cytokines play a role in inflammatory responses, which glucocorticoids can affect.</p>
@@ -926,14 +926,14 @@ In the barplot above you can see the enriched pathways that are present in the D
 <p>Even though “Pathways in cancer” has the highest gene ratio (27/213 genes), it also has the highest padjust value, meaning there could be a chance it’s not significant. Besides, I chose pathways that are directly involved in inflammation, immune response and the airway function, because this helps understanding the disease mechanisms and possible ways to intervene when things go wrong with therapeutics.</p>
 <p>I got the pathway ID from the kegg_enrichment table. hsa means homo sapiens.</p>
 <p>First Inflammatory mediator regulation of TRP channels:</p>
-<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-14"></span>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-13"></span>
 <img src="Images/hsa04750.png" alt="Pathway Inflammatory mediator regulation of TRP channels   " width="70%" />
 <p class="caption">
 Figure 2.3: Pathway Inflammatory mediator regulation of TRP channels
 </p>
 </div>
 <p>Now Cytokine-cytokine receptor interaction:</p>
-<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-16"></span>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-15"></span>
 <img src="Images/hsa04060.png" alt="Pathway Inflammatory mediator regulation of TRP channels   " width="70%" />
 <p class="caption">
 Figure 2.4: Pathway Inflammatory mediator regulation of TRP channels
