@@ -396,7 +396,7 @@ Learning <code>clusterProfiler</code> automates gene expression analysis with KE
 </ul>
 <p>More information on Clusterprofiler can be found here: <a href="https://yulab-smu.top/biomedical-knowledge-mining-book/clusterprofiler-kegg.html" class="uri">https://yulab-smu.top/biomedical-knowledge-mining-book/clusterprofiler-kegg.html</a>.</p>
 <div class="figure">
-<img src="pathview.png" alt="Visualize the selected KEGG pathway using pathview(). Gene expression values can be assigned to a gradient color scale." width="70%" />
+<img src="Images/pathview.png" alt="Visualize the selected KEGG pathway using pathview(). Gene expression values can be assigned to a gradient color scale." width="70%" />
 <p class="caption">
 (#fig:haha )Visualize the selected KEGG pathway using pathview(). Gene expression values can be assigned to a gradient color scale.
 </p>
@@ -406,7 +406,7 @@ Learning <code>clusterProfiler</code> automates gene expression analysis with KE
 <h2><span class="header-section-number">2.5</span> Diving deeper into Clusterprofiler…<a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#diving-deeper-into-clusterprofiler" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>As preparation on how to use the Clusterprofiler package to make a pathway analysis and to get an idea on the options this package has and I can use, I have the next overview:</p>
 <div class="figure"><span style="display:block;" id="fig:dus"></span>
-<img src="clusterProfiler_Overview_Wu_et_al_2021.png" alt="An overview of the clusterprofiler package and the associated analysis and visualization. Clusterprofiler supports Gene set enrichment analysis and over representation analysis." width="90%" />
+<img src="Images/clusterProfiler_Overview_Wu_et_al_2021.png" alt="An overview of the clusterprofiler package and the associated analysis and visualization. Clusterprofiler supports Gene set enrichment analysis and over representation analysis." width="90%" />
 <p class="caption">
 Figure 2.1: An overview of the clusterprofiler package and the associated analysis and visualization. Clusterprofiler supports Gene set enrichment analysis and over representation analysis.
 </p>
@@ -560,10 +560,10 @@ pvalueCutoff: We use a p-value cutoff of 0.05 to identify significant results.</
 ## GO:0008188                                                                                                                                                                                                                                                                                                                                                                                                                                                 FBgn0035331/FBgn0038880/FBgn0050340/FBgn0053639/FBgn0004842/FBgn0004622/FBgn0052547/FBgn0033932/FBgn0038140/FBgn0050106/FBgn0030437/FBgn0039396/FBgn0264002/FBgn0031770/FBgn0037408/FBgn0033744/FBgn0035385/FBgn0266429/FBgn0260753/FBgn0052843
 ## GO:0030055                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 FBgn0034540/FBgn0032683/FBgn0000464/FBgn0010395/FBgn0031850/FBgn0265991/FBgn0033987/FBgn0004397/FBgn0261574/FBgn0004456/FBgn0053993/FBgn0052406</code></pre>
 <p>We can visualise the enriched GO terms with the dotplot() function within Clusterprofiler. Facet grid is used to split the two plots into two seperate panels. This makes it easier to compare patterns.</p>
-<p><img src="_main_files/figure-html/nonono-1.png" width="672" />
+<p><img src="Images/nonono-1.png" width="672" />
 We can also visualize the GO-terms with a visualisation specifically for GSEA only: the Ridgeplot. Basically it groups gene sets and displays density plots for each, showing the distribution of fold change values. This helps quickly see which pathways are upregulated or downregulated and provides an overview of gene involvement in various biological processes.</p>
 <p>Let’s say I only want the most significant gene sets.</p>
-<p><img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="Images/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="kegg-gene-set-enrichment-analysis-what-pathways-are-enriched" class="section level3 hasAnchor" number="2.6.6">
 <h3><span class="header-section-number">2.6.6</span> KEGG Gene Set Enrichment Analysis: What pathways are enriched?<a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#kegg-gene-set-enrichment-analysis-what-pathways-are-enriched" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -693,7 +693,7 @@ We can also visualize the GO-terms with a visualisation specifically for GSEA on
 <div id="dotplot" class="section level3 hasAnchor" number="2.6.10">
 <h3><span class="header-section-number">2.6.10</span> Dotplot<a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#dotplot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb10-1" tabindex="-1"></a><span class="fu">dotplot</span>(kk2, <span class="at">showCategory =</span> <span class="dv">2</span>, <span class="at">title =</span> <span class="st">&quot;Enriched Pathways in the Drosophila melanogaster&quot;</span> , <span class="at">split=</span><span class="st">&quot;.sign&quot;</span>) <span class="sc">+</span> <span class="fu">facet_grid</span>(.<span class="sc">~</span>.sign)</span></code></pre></div>
-<p><img src="_main_files/figure-html/plotje-1.png" width="672" /></p>
+<p><img src="Images/plotje-1.png" width="672" /></p>
 </div>
 <div id="pathview" class="section level3 hasAnchor" number="2.6.11">
 <h3><span class="header-section-number">2.6.11</span> Pathview<a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#pathview" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -711,7 +711,7 @@ We can also visualize the GO-terms with a visualisation specifically for GSEA on
 <span id="cb11-6"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb11-6" tabindex="-1"></a>                <span class="at">pathway.id=</span><span class="st">&quot;dme04130&quot;</span>, </span>
 <span id="cb11-7"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb11-7" tabindex="-1"></a>                <span class="at">species =</span> kegg_organism)</span></code></pre></div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-7"></span>
-<img src="dme04130.pathview.png" alt="Pathway snare interactions in vescular transport in Drosophila melanogaster" width="70%" />
+<img src="Images/dme04130.pathview.png" alt="Pathway snare interactions in vescular transport in Drosophila melanogaster" width="70%" />
 <p class="caption">
 Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melanogaster
 </p>
@@ -829,12 +829,12 @@ Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melan
 <span id="cb19-3"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb19-3" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(<span class="at">range=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">7</span>))<span class="sc">+</span></span>
 <span id="cb19-4"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb19-4" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
 <span id="cb19-5"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb19-5" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;GO Enrichment of up-regulated genes&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/kanarie-1.png" width="672" />
+<p><img src="Images/kanarie-1.png" width="672" />
 <strong>Barplot</strong></p>
 <p>The bar plot below displays the enriched Gene Ontology (GO) terms for the airway data. GO terms represent biological processes, molecular functions, or cellular components that genes are involved in. By setting the <code>showCategory</code> parameter, you can specify the number of top terms to display. In this case, I set <code>showCategory=10</code>, so the plot shows the 10 most significant GO terms and the number of genes from the airway dataset associated with each term (Count).</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb20-1" tabindex="-1"></a><span class="co"># Barplot for GO-terms</span></span>
 <span id="cb20-2"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb20-2" tabindex="-1"></a><span class="fu">barplot</span>(simple_GO_enrich_up, <span class="at">showCategory =</span> <span class="dv">10</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="Images/unnamed-chunk-9-1.png" width="672" /></p>
 <p><strong>Cnetplot</strong></p>
 <p>The <code>cnetplot()</code> function helps visualize which genes are involved in significant enriched terms, unlike <code>barplot()</code> and <code>dotplot()</code>, which only show the most significant terms. <code>cnetplot()</code> shows the complex associations between genes and biological concepts (like GO terms or KEGG pathways) in a network, highlighting how genes may belong to multiple categories.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb21-1" tabindex="-1"></a><span class="co"># Color the genes by log2 fold changes</span></span>
@@ -851,7 +851,7 @@ Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melan
 <span id="cb21-12"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb21-12" tabindex="-1"></a>         <span class="at">cex_label_gene=</span><span class="fl">0.25</span>,</span>
 <span id="cb21-13"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb21-13" tabindex="-1"></a>         <span class="at">cex_label_category=</span><span class="fl">0.5</span>,</span>
 <span id="cb21-14"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb21-14" tabindex="-1"></a>         <span class="at">color_category=</span><span class="st">&quot;#60a0b03d&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/taylor-1.png" width="672" /></p>
+<p><img src="Images/taylor-1.png" width="672" /></p>
 </div>
 <div id="kegg-pathway-enrichment-analyse" class="section level3 hasAnchor" number="2.7.3">
 <h3><span class="header-section-number">2.7.3</span> KEGG pathway enrichment analyse<a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#kegg-pathway-enrichment-analyse" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -925,11 +925,11 @@ Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melan
 <p>The “gene ratio” in a KEGG pathway enrichment analysis indicates how many genes from the dataset are involved in a specific KEGG pathway relative to the total number of genes typically associated with that pathway in the reference database (the human KEGG database). In the table kegg_enrichment, you can see the Gene ratio for the pathway “Pathways in Cancer” is the highest.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb24-1" tabindex="-1"></a><span class="co"># dotplot for enriched pathways in airway dataset </span></span>
 <span id="cb24-2"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb24-2" tabindex="-1"></a><span class="fu">dotplot</span>(kegg_enrichment, <span class="at">showCategory =</span> <span class="dv">10</span>, <span class="at">title=</span> <span class="st">&quot;Enriched Pathways in the Airway Dataset&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="Images/unnamed-chunk-11-1.png" width="672" /></p>
 <p><strong>Barplot</strong></p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb25-1" tabindex="-1"></a><span class="co"># Voorbeeld barplot voor pathways </span></span>
 <span id="cb25-2"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb25-2" tabindex="-1"></a><span class="fu">barplot</span>(kegg_enrichment, <span class="at">showCategory =</span> <span class="dv">10</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="672" />
+<p><img src="Images/unnamed-chunk-12-1.png" width="672" />
 In the barplot above you can see the enriched pathways that are present in the DE genes in the airway study. How are these pathways related to the airway data?</p>
 <p>Inflammatory mediator regulation of TRP channels: This indicates specific ways in which substances causing inflammation can affect certain ‘TRP’ channels in the airways. This can help understand how medications like glucocorticoids reduce inflammation in the airways.</p>
 <p>Cytokine-cytokine receptor interaction: This refers to how certain substances (cytokines) and their receptors communicate with each other in the airways. This is important because cytokines play a role in inflammatory responses, which glucocorticoids can affect.</p>
@@ -945,14 +945,14 @@ In the barplot above you can see the enriched pathways that are present in the D
 <p>I got the pathway ID from the kegg_enrichment table. hsa means homo sapiens.</p>
 <p>First Inflammatory mediator regulation of TRP channels:</p>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-14"></span>
-<img src="hsa04750.png" alt="Pathway Inflammatory mediator regulation of TRP channels   " width="70%" />
+<img src="Images/hsa04750.png" alt="Pathway Inflammatory mediator regulation of TRP channels   " width="70%" />
 <p class="caption">
 Figure 2.3: Pathway Inflammatory mediator regulation of TRP channels
 </p>
 </div>
 <p>Now Cytokine-cytokine receptor interaction:</p>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-16"></span>
-<img src="hsa04060.png" alt="Pathway Inflammatory mediator regulation of TRP channels   " width="70%" />
+<img src="Images/hsa04060.png" alt="Pathway Inflammatory mediator regulation of TRP channels   " width="70%" />
 <p class="caption">
 Figure 2.4: Pathway Inflammatory mediator regulation of TRP channels
 </p>
