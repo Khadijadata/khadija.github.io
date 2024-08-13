@@ -10,15 +10,15 @@
 
   <meta property="og:title" content="2 Pathway Analysis using the ClusterProfiler package in R | Portfolio DataScience of Khadija Zbair" />
   <meta property="og:type" content="book" />
-  
-  
-  
+
+
+
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="2 Pathway Analysis using the ClusterProfiler package in R | Portfolio DataScience of Khadija Zbair" />
-  
-  
-  
+
+
+
 
 <meta name="author" content="Khadija Zbair" />
 
@@ -28,8 +28,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  
-  
+
+
 <link rel="prev" href="future-outlook.html"/>
 <link rel="next" href="guerrilla-analytics.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -138,7 +138,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </style>
 
 <style type="text/css">
-  
+
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
 
@@ -154,6 +154,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+  <li class="toc-logo"><h3 class=".paddingtitel">Portfolio of Khadija Zbair</h3></li>
+<li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Introduction</a></li>
 <li class="chapter" data-level="" data-path="curriculum-vitae.html"><a href="curriculum-vitae.html"><i class="fa fa-check"></i>Curriculum vitae</a>
 <ul>
@@ -779,10 +781,10 @@ Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melan
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb15-1" tabindex="-1"></a><span class="co"># Obtain keytype info</span></span>
 <span id="cb15-2"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb15-2" tabindex="-1"></a><span class="fu">keytypes</span>(org.Hs.eg.db)</span></code></pre></div>
 <pre><code>##  [1] &quot;ACCNUM&quot;       &quot;ALIAS&quot;        &quot;ENSEMBL&quot;      &quot;ENSEMBLPROT&quot;  &quot;ENSEMBLTRANS&quot;
-##  [6] &quot;ENTREZID&quot;     &quot;ENZYME&quot;       &quot;EVIDENCE&quot;     &quot;EVIDENCEALL&quot;  &quot;GENENAME&quot;    
-## [11] &quot;GENETYPE&quot;     &quot;GO&quot;           &quot;GOALL&quot;        &quot;IPI&quot;          &quot;MAP&quot;         
-## [16] &quot;OMIM&quot;         &quot;ONTOLOGY&quot;     &quot;ONTOLOGYALL&quot;  &quot;PATH&quot;         &quot;PFAM&quot;        
-## [21] &quot;PMID&quot;         &quot;PROSITE&quot;      &quot;REFSEQ&quot;       &quot;SYMBOL&quot;       &quot;UCSCKG&quot;      
+##  [6] &quot;ENTREZID&quot;     &quot;ENZYME&quot;       &quot;EVIDENCE&quot;     &quot;EVIDENCEALL&quot;  &quot;GENENAME&quot;
+## [11] &quot;GENETYPE&quot;     &quot;GO&quot;           &quot;GOALL&quot;        &quot;IPI&quot;          &quot;MAP&quot;
+## [16] &quot;OMIM&quot;         &quot;ONTOLOGY&quot;     &quot;ONTOLOGYALL&quot;  &quot;PATH&quot;         &quot;PFAM&quot;
+## [21] &quot;PMID&quot;         &quot;PROSITE&quot;      &quot;REFSEQ&quot;       &quot;SYMBOL&quot;       &quot;UCSCKG&quot;
 ## [26] &quot;UNIPROT&quot;</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb17-1" tabindex="-1"></a><span class="co"># GO enrichment on the up-regulated genes</span></span>
 <span id="cb17-2"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb17-2" tabindex="-1"></a>GO_enrich_up <span class="ot">&lt;-</span> <span class="fu">enrichGO</span>(<span class="at">gene =</span> sig_up_genes<span class="sc">$</span>Ensemble,</span>
@@ -798,11 +800,11 @@ Figure 2.2: Pathway snare interactions in vescular transport in Drosophila melan
 <pre><code>## #
 ## # over-representation test
 ## #
-## #...@organism     Homo sapiens 
-## #...@ontology     BP 
-## #...@keytype      ENSEMBL 
+## #...@organism     Homo sapiens
+## #...@ontology     BP
+## #...@keytype      ENSEMBL
 ## #...@gene     chr [1:483] &quot;ENSG00000004846&quot; &quot;ENSG00000005471&quot; &quot;ENSG00000006283&quot; ...
-## #...pvalues adjusted by &#39;BH&#39; with cutoff &lt;0.05 
+## #...pvalues adjusted by &#39;BH&#39; with cutoff &lt;0.05
 ## #...222 enriched terms found
 ## &#39;data.frame&#39;:    222 obs. of  9 variables:
 ##  $ ID         : chr  &quot;GO:0120039&quot; &quot;GO:0048858&quot; &quot;GO:0048812&quot; &quot;GO:0045597&quot; ...
