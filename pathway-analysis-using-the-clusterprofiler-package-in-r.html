@@ -431,11 +431,11 @@ Figure 2.2: An overview of the clusterprofiler package and the associated analys
 <h2><span class="header-section-number">2.6</span> ORA and GSEA with clusterProfiler<a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#ora-and-gsea-with-clusterprofiler" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In general, the steps are:</p>
 <ol style="list-style-type: decimal">
-<li><strong>Load the differential expression results (DE results) in the Deseq2 object</strong>: We need the results from the differential expression analysis to generate gene lists for further functional analysis. The results of these analysis is stored in a Deseq2 object. For GSEA and ORA this step is the same.</li>
-</ol>
-<!-- -->
-<ol start="2" style="list-style-type: decimal">
-<li><strong>Create gene list up and downregulated</strong>: Create different lists of genes based on their differential expression with associated log2 fold change values. To organize the genes into lists for specific analyses, such as up-regulated and down-regulated genes.</li>
+<li><p><strong>Load the differential expression results (DE results) in the Deseq2 object</strong>: We need the results from the differential expression analysis to generate gene lists for further functional analysis.
+The results of these analysis is stored in a Deseq2 object.
+For GSEA and ORA this step is the same.</p></li>
+<li><p><strong>Create gene list up and downregulated</strong>: Create different lists of genes based on their differential expression with associated log2 fold change values.
+To organize the genes into lists for specific analyses, such as up-regulated and down-regulated genes.</p></li>
 </ol>
 <p>Function from clusterprofiler: bitr().
 It can convert gene IDs.</p>
@@ -613,14 +613,15 @@ After this, we use our original gene list to start the analysis.</p>
 </div>
 <div id="prepare-input" class="section level3 hasAnchor" number="2.7.5">
 <h3><span class="header-section-number">2.7.5</span> Prepare Input<a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#prepare-input" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Pseudocoding: - Convert ENSEMBL IDs to ENTREZ IDs.
-- Remove duplicate ENSEMBL IDs.
-- Select successfully mapped genes.
-- Add ENTREZ IDs to the selected genes.
-- Create a gene universe vector based on log2 fold change values.
-- Label the vector with ENTREZ IDs.
-- Remove NA values.
-- Sort the vector in decreasing order.</p>
+<p>Pseudocoding:</p>
+<p>- Convert ENSEMBL IDs to ENTREZ IDs.</p>
+<p>- Remove duplicate ENSEMBL IDs.</p>
+<p>- Select successfully mapped genes.</p>
+<p>- Add ENTREZ IDs to the selected genes.</p>
+<p>- Create a gene universe vector based on log2 fold change values.</p>
+<p>- Label the vector with ENTREZ IDs.</p>
+<p>- Remove NA values.</p>
+<p>- Sort the vector in decreasing order.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb9-1" tabindex="-1"></a><span class="co"># Convert gene IDs for gseKEGG function</span></span>
 <span id="cb9-2"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb9-2" tabindex="-1"></a>gene_id_mapping <span class="ot">&lt;-</span> <span class="fu">bitr</span>(<span class="fu">names</span>(input_gene_list), <span class="at">fromType =</span> <span class="st">&quot;ENSEMBL&quot;</span>, <span class="at">toType =</span> <span class="st">&quot;ENTREZID&quot;</span>, <span class="at">OrgDb =</span> organism)</span>
 <span id="cb9-3"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb9-3" tabindex="-1"></a></span>
