@@ -808,16 +808,14 @@ This helps you see which genes are most important and how different pathways are
 Parameters
 </summary>
 <ul>
-<li>
 <li><p>gene.data: This parameter corresponds to the kegg_gene_list created earlier in our analysis.
 It contains the gene expression data necessary for pathway visualization.</p></li>
 <li><p>pathway.id: The input of the pathway ID of interest.
 Information on enriched pathways, including their IDs, can be found in the output table of the gseKEGG function.</p></li>
 <li><p>species: This parameter should be the same as the organism specified in the gseKEGG function, which we defined earlier as kegg_organism.
-It denotes the KEGG organism code for the species under investigation.</p>
-</li>
+It denotes the KEGG organism code for the species under investigation.</p></li>
 </ul>
-<details>
+</details>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb14-1" tabindex="-1"></a><span class="fu">library</span>(pathview)</span>
 <span id="cb14-2"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb14-2" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="pathway-analysis-using-the-clusterprofiler-package-in-r.html#cb14-3" tabindex="-1"></a><span class="co"># Produce the native KEGG plot</span></span>
